@@ -1,0 +1,112 @@
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+
+# Ignorar carpetas y archivos de sistema
+.anaconda/
+.cache/
+.conda/
+.continuum/
+.ipynb_checkpoints/
+.ipython/
+.jupyter/
+.vscode/
+AppData/
+"Configuración local/"
+Cookies/
+Datos de programa/
+Entorno de red/
+Impresoras/
+"Menú Inicio/"
+"Mis documentos/"
+Plantillas/
+Reciente/
+SendTo/
+OneDrive/
+Saved Games/
+Searches/
+Videos/
+Documents/
+Desktop/
+Downloads/
+Music/
+Pictures/
+
+# Ignorar archivos temporales y de sistema
+*.log
+*.tmp
+*.DS_Store
+ntuser.dat*
+
+# Ignorar archivos fuera de la carpeta del proyecto
+../../../*
+
+# Ignorar carpetas y archivos de sistema
+.anaconda/
+.cache/
+.conda/
+.continuum/
+.ipynb_checkpoints/
+.ipython/
+.jupyter/
+.vscode/
+AppData/
+"Configuración local/"
+Cookies/
+Datos de programa/
+Entorno de red/
+Impresoras/
+"Menú Inicio/"
+"Mis documentos/"
+Plantillas/
+Reciente/
+SendTo/
+OneDrive/
+Saved Games/
+Searches/
+Videos/
+Documents/
+Desktop/
+Downloads/
+Music/
+Pictures/
+
+# Ignorar archivos temporales y de sistema
+*.log
+*.tmp
+*.DS_Store
+NTUSER.DAT*
+
+
+demo/.git
