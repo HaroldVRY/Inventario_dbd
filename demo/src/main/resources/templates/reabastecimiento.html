@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitudes de Reabastecimiento</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="header-bar" style="background-color: #3498db;">
+        <a href="/" class="back-icon" aria-label="Volver al inicio">&#x2190;</a>
+        <div class="title-container">
+            <img src="/images/logo_solicitud_reabastecimiento.png" alt="Icono Solicitudes de Reabastecimiento" class="title-icon">
+            <h1>Solicitudes de Reabastecimiento</h1>
+        </div>
+    </div>
+
+    <div class="recepciones-container">
+        <div class="content-box" style="background-color: #b3d9ff; margin-top: 100px;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Stock Real</th>
+                        <th>Pronóstico</th>
+                        <th>Mínimo</th>
+                        <th>Máximo</th>
+                        <th>A pedir</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Acero Laminado</td>
+                        <td>50,00</td>
+                        <td>30,00</td>
+                        <td>5,00</td>
+                        <td>250,00</td>
+                        <td><span class="status listo">100,00</span></td>
+                        <td><button class="new-btn">Generar</button></td> <!-- Cambiado de "Acción" a "Generar" -->
+                    </tr>
+
+                    <tr>
+                        <td>Tubo de Acero</td>
+                        <td>30,00</td>
+                        <td>10,00</td>
+                        <td>10,00</td>
+                        <td>300,00</td>
+                        <td><span class="status listo">150,00</span></td>
+                        <td><button class="new-btn">Generar</button></td>
+                    </tr>
+                    <!-- Añadir más filas según sea necesario -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="button-container">
+            <button class="delete-btn">Eliminar</button>
+            <button class="new-btn">Nuevo</button>
+        </div>
+    </div>
+</body>
+</html>

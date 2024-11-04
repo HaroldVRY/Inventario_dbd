@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle de Entrega</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="header-bar entregas">
+        <a href="/entregas" class="back-icon" aria-label="Volver">&#x2190;</a>
+        <div class="title-container">
+            <img src="/images/logo_entregas.png" alt="Icono Entregas" class="title-icon">
+            <h1>Entregas</h1>
+        </div>
+    </div>
+
+    <div class="detalle-container" style="margin-top: 100px;">
+        <div class="entregas-content-box">
+            <div class="detalle-header">
+                <h2>GR00001</h2>
+            </div>
+            <div class="informacion-recepcion" style="margin-top: 20px;">
+                <p><strong>Recibir de:</strong> Minera Chinalco</p>
+                <p><strong>Tipo de Operación:</strong> Entrega</p>
+                <p><strong>Prioridad:</strong> Urgente</p>
+                <p><strong>Estado:</strong> Listo</p>
+                <p><strong>Fecha Programada:</strong> 20/09/2024</p>
+                <p><strong>Fecha Efectiva:</strong> 24/09/2024</p>
+                <p><strong>Documento Origen:</strong> G. R. Nº 573</p>
+            </div>
+
+            <div class="entregas-table-box table-box" style="margin-top: 20px;">
+                <table style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Demanda</th>
+                            <th>Cantidad</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Acero Laminado</td>
+                            <td>40,00</td>
+                            <td>40,00</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Botón de Editar centrado debajo del contenedor verde -->
+        <div class="button-center-container" style="margin-top: 20px;">
+            <button class="new-btn" onclick="location.href='/editar_entrega?id=GR00001'">Editar</button>
+        </div>
+    </div>
+</body>
+</html>

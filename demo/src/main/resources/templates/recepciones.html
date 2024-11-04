@@ -15,32 +15,70 @@
         </div>
     </div>
 
+    <div class="content-container" style="margin-top: 60px;">
+        
+        <!-- Contenedor de búsqueda y filtro -->
+        <div class="search-filter-container" style="margin-top: 30px;">
+            <input type="text" placeholder="Buscar por referencia, contacto, etc.">
+            <button class="search-btn">
+                <span class="icon-search">&#128269;</span> <!-- Icono de lupa -->
+                Buscar
+            </button>
+            <button class="filter-btn">
+                <span class="icon-filter">&#128209;</span> <!-- Icono de filtro -->
+                Filtrar
+            </button>
+        </div>
+
+
+
     <div class="recepciones-container">
         <div class="content-box">
             <table>
                 <thead>
                     <tr>
-                        <th>Referencia</th>
+                        <th>ID</th>
                         <th>Contacto</th>
                         <th>Fecha Programada</th>
-                        <th>Documento de origen</th>
+                        <th>Documento de Origen</th>
                         <th>Estado</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr onclick="window.location.href='/detalle_recepcion?id=GR00001'">
-                        <td>GR00001</td>
-                        <td>Posco</td>
-                        <td>20/09/2024</td>
-                        <td>G. R. Nº 572</td>
+                    <tr onclick="window.location.href='/detalle_recepcion?id=GR0001'">
+                        <td>GR0001</td>
+                        <td>Proveedores S.A.</td>
+                        <td>2023-01-01</td>
+                        <td>OC0001</td>
                         <td><span class="status listo">Listo</span></td>
                     </tr>
-                    <tr onclick="window.location.href='/detalle_recepcion?id=GR00002'">
-                        <td>GR00002</td>
-                        <td>Valin</td>
-                        <td>21/10/2024</td>
-                        <td>G. R. Nº 575</td>
-                        <td><span class="status borrador">Borrador</span></td>
+                    <tr onclick="window.location.href='/detalle_recepcion?id=GR0002'">
+                        <td>GR0002</td>
+                        <td>Metalco Ltda.</td>
+                        <td>2023-01-15</td>
+                        <td>OC0002</td>
+                        <td><span class="status proceso">Proceso</span></td>
+                    </tr>
+                    <tr onclick="window.location.href='/detalle_recepcion?id=GR0003'">
+                        <td>GR0003</td>
+                        <td>Construcción y Proyectos</td>
+                        <td>2023-02-01</td>
+                        <td>OC0003</td>
+                        <td><span class="status listo">Listo</span></td>
+                    </tr>
+                    <tr onclick="window.location.href='/detalle_recepcion?id=GR0004'">
+                        <td>GR0004</td>
+                        <td>Herramientas y Equipos S.A.</td>
+                        <td>2023-02-15</td>
+                        <td>OC0004</td>
+                        <td><span class="status proceso">Proceso</span></td>
+                    </tr>
+                    <tr onclick="window.location.href='/detalle_recepcion?id=GR0005'">
+                        <td>GR0005</td>
+                        <td>Suministros Industriales</td>
+                        <td>2023-03-01</td>
+                        <td>OC0005</td>
+                        <td><span class="status listo">Listo</span></td>
                     </tr>
                 </tbody>
             </table>
@@ -49,6 +87,7 @@
         <div class="button-container">
             <button class="delete-btn">Eliminar</button>
             <button class="new-btn">Nuevo</button>
+            
         </div>
     </div>
 </body>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entregas</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        /* Estilo para hacer que toda la fila sea clicable */
+        .clickable-row a {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
+        .clickable-row td {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-bar entregas">
+        <a href="/" class="back-icon" aria-label="Volver al inicio">&#x2190;</a>
+        <div class="title-container">
+            <img src="/images/logo_entregas.png" alt="Icono Entregas" class="title-icon">
+            <h1>Entregas</h1>
+        </div>
+    </div>
+
+    <div class="entregas-container">
+        <div class="content-box" style="margin-top: 100px; background-color: #d0f7d0;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Referencia</th>
+                        <th>Contacto</th>
+                        <th>Fecha Programada</th>
+                        <th>Documento de origen</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="clickable-row">
+                        <td><a href="/detalle_entrega?id=GR00001">GR00001</a></td>
+                        <td><a href="/detalle_entrega?id=GR00001">Minera Chinalco</a></td>
+                        <td><a href="/detalle_entrega?id=GR00001">20/09/2024</a></td>
+                        <td><a href="/detalle_entrega?id=GR00001">G. R. Nº 573</a></td>
+                        <td><a href="/detalle_entrega?id=GR00001"><span class="status listo">Listo</span></a></td>
+                    </tr>
+                    <tr class="clickable-row">
+                        <td><a href="/detalle_entrega?id=GR00002">GR00002</a></td>
+                        <td><a href="/detalle_entrega?id=GR00002">CIA Minera Perubar</a></td>
+                        <td><a href="/detalle_entrega?id=GR00002">21/10/2024</a></td>
+                        <td><a href="/detalle_entrega?id=GR00002">G. R. Nº 574</a></td>
+                        <td><a href="/detalle_entrega?id=GR00002"><span class="status borrador">Borrador</span></a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="button-container">
+            <button class="delete-btn">Eliminar</button>
+            <button class="new-btn" onclick="window.location.href='/editar_entrega?id=new'">Nuevo</button>
+        </div>
+    </div>
+</body>
+</html>

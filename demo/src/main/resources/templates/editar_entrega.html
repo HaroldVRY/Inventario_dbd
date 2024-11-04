@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle de Entrega</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="header-bar entregas">
+        <a href="/detalle_entrega?id=GR0001" class="back-icon" aria-label="Volver">&#x2190;</a>
+        <div class="title-container">
+            <img src="/images/logo_entregas.png" alt="Icono Entregas" class="title-icon">
+            <h1>Entregas</h1>
+        </div>
+    </div>
+
+    <div class="entregas-container" style="margin-top: 100px;">
+        <div class="entregas-content-box" style="width: 100%; padding-bottom: 20px;">
+            <div class="detalle-header">
+                <h2>GR00001</h2>
+            </div>
+            <div class="informacion-recepcion" style="margin-top: 20px;">
+                <p><strong>Recibir de:</strong> <input type="text" class="input-right" value="Minera Chinalco"></p>
+                <p><strong>Tipo de Operación:</strong> <input type="text" class="input-right" value="Entrega"></p>
+                <p><strong>Prioridad:</strong> <input type="text" class="input-right" value="Urgente"></p>
+                <p><strong>Estado:</strong> <input type="text" class="input-right" value="Listo"></p>
+                <p><strong>Fecha Programada:</strong> <input type="date" class="input-right" value="2024-09-20"></p>
+                <p><strong>Fecha Efectiva:</strong> <input type="date" class="input-right" value="2024-09-24"></p>
+                <p><strong>Documento Origen:</strong> <input type="text" class="input-right" value="G. R. Nº 573"></p>
+            </div>
+
+            <div class="entregas-table-box table-box" style="margin-top: 20px;">
+                <table style="width: 100%; padding-bottom: 20px;">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Demanda</th>
+                            <th>Cantidad</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="text" value="Acero Laminado"></td>
+                            <td><input type="text" value="40,00"></td>
+                            <td><input type="text" value="40,00"></td>
+                            <td><button class="delete-btn">Borrar</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Botón de Agregar centrado dentro del contenedor verde -->
+            <div class="agregar-btn-container" style="text-align: center; margin-top: 20px;">
+                <button class="new-btn">Agregar</button>
+            </div>
+        </div>
+          
+
+        <!-- Botón de Guardar y Cancelar fuera del contenedor verde con separación adecuada -->
+        <div class="button-container" style="margin-top: 20px;">
+            <button class="delete-btn" onclick="location.href='/detalle_entrega?id=GR00001'">Cancelar</button>
+            <button class="new-btn" onclick="location.href='/detalle_entrega?id=GR00001'">Guardar</button>
+        </div>
+    </div>
+</body>
+</html>

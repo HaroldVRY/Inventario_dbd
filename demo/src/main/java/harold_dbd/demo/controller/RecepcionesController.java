@@ -1,4 +1,3 @@
-
 package harold_dbd.demo.controller;
 
 import org.springframework.stereotype.Controller;
@@ -16,6 +15,12 @@ public class RecepcionesController {
     @GetMapping("/detalle_recepcion")
     public String detalleRecepcion(@RequestParam(value = "id", required = false) String id) {
         // Puedes usar el parámetro 'id' en el modelo si es necesario para el detalle
-        return "detalle_recepcion";  // Redirige a detalle_recepcion.html sin extensión en la URL
+        return "detalle_recepcion";  // Redirige a detalle_recepcion.html
+    }
+
+    @GetMapping("/editar_recepcion")
+    public String editarRecepcion(@RequestParam(value = "id", required = false) String id) {
+        // Puedes usar el parámetro 'id' en el modelo si es necesario para la edición
+        return "editar_recepcion";  // Redirige a editar_recepcion.html
     }
 }

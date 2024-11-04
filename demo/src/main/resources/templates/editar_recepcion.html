@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Recepción</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        /* Ajuste de tamaño de los inputs de la tabla */
+        .table-box input[type="text"] {
+            width: 80px; /* Reduce el ancho de los inputs */
+        }
+    </style>
+    <script>
+        function redirectToDetalle() {
+            if (confirm("¿Está seguro de cancelar los cambios?")) {
+                window.location.href = "/detalle_recepcion?id=GR0001";
+            }
+        }
+
+        function saveChanges() {
+            alert("Cambios guardados");
+            window.location.href = "/detalle_recepcion?id=GR0001";
+        }
+
+        function addRow() {
+            const table = document.getElementById("detalle-table").getElementsByTagName("tbody")[0];
+            const newRow = table.insertRow();
+
+            ["ID Recurso", "Cantidad Recurso", "Demanda", "ID Producto", "Cantidad Producto"].forEach((placeholder) => {
+                const cell = newRow.insertCell();
+                const input = document.createElement("input");
+                input.type = "text";
+                input.placeholder = placeholder;
+                input.style.width = "80px"; // Aplica el estilo reducido a los nuevos inputs
+                cell.appendChild(input);
+            });
+
+            const deleteCell = newRow.insertCell();
+            const deleteButton = document.createElement("button");
+            deleteButton.className = "delete-btn";
+            deleteButton.innerText = "Borrar";
+            deleteButton.onclick = function() {
+                table.deleteRow(newRow.rowIndex - 1);
+            };
+            deleteCell.appendChild(deleteButton);
+        }
+    </script>
+</head>
+<body>
+    <div class="header-bar">
+        <a href="#" class="back-icon" onclick="redirectToDetalle()" aria-label="Cancelar">&#x2190;</a>
+        <div class="title-container">
+            <img src="/images/logo_recepciones.png" alt="Icono Recepciones" class="title-icon">
+            <h1>Editar Recepción</h1>
+        </div>
+    </div>
+
+    <div class="detalle-container" style="margin-top: 80px;">
+        <div class="content-box" style="width: 100%; padding-bottom: 20px;">
+            <div class="detalle-header">
+                <h2>GR0001</h2>
+            </div>
+            <div class="informacion-recepcion" style="margin-top: 20px;">
+                <p><strong>ID:</strong> GR0001</p>
+                <p><strong>Recibir de:</strong> <input type="text" value="Proveedores S.A." style="text-align: center;"></p>
+                <p><strong>Tipo de Operación:</strong> <input type="text" value="Recepción" style="text-align: center;"></p>
+                <p><strong>Prioridad:</strong> <input type="text" value="Urgente" style="text-align: center;"></p>
+                <p><strong>Estado:</strong> <input type="text" value="En Proceso" style="text-align: center;"></p>
+                <p><strong>Fecha Programada:</strong> <input type="date" value="2023-01-01" style="text-align: center;"></p>
+                <p><strong>Fecha Efectiva:</strong> <input type="date" value="2023-01-02" style="text-align: center;"></p>
+                <p><strong>Documento Origen:</strong> <input type="text" value="OC0001" style="text-align: center;"></p>
+                <p><strong>ID del Empleado:</strong> <input type="text" value="E01008" style="text-align: center;"></p>
+            </div>
+
+            <div class="table-box" style="margin-top: 20px;">
+                <table id="detalle-table" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>ID Recurso</th>
+                            <th>Cantidad Recurso</th>
+                            <th>Demanda</th>
+                            <th>ID Producto</th>
+                            <th>Cantidad Producto</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Existing rows from detalle_guia -->
+                        <tr>
+                            <td><input type="text" value="RC0001" style="width: 80px; text-align: center;"></td>
+                            <td><input type="text" value="5" style="width: 80px; text-align: center;"></td>
+                            <td><input type="text" value="15" style="width: 80px; text-align: center;"></td>
+                            <td><input type="text" value="P0001" style="width: 80px; text-align: center;"></td>
+                            <td><input type="text" value="10" style="width: 80px; text-align: center;"></td>
+                            <td><button class="delete-btn">Borrar</button></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" value="RC0002" style="width: 80px; text-align: center;"></td>
+                            <td><input type="text" value="8" style="width: 80px; text-align: center;"></td>
+                            <td><input type="text" value="20" style="width: 80px; text-align: center;"></td>
+                            <td><input type="text" value="P0002" style="width: 80px; text-align: center;"></td>
+                            <td><input type="text" value="12" style="width: 80px; text-align: center;"></td>
+                            <td><button class="delete-btn">Borrar</button></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" value="RC0003" style="width: 80px; text-align: center;"></td>
+                            <td><input type="text" value="2" style="width: 80px; text-align: center;"></td>
+                            <td><input type="text" value="10" style="width: 80px; text-align: center;"></td>
+                            <td><input type="text" value="P0003" style="width: 80px; text-align: center;"></td>
+                            <td><input type="text" value="8" style="width: 80px; text-align: center;"></td>
+                            <td><button class="delete-btn">Borrar</button></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" value="RC0004" style="width: 80px; text-align: center;"></td>
+                            <td><input type="text" value="7" style="width: 80px; text-align: center;"></td>
+                            <td><input type="text" value="18" style="width: 80px; text-align: center;"></td>
+                            <td><input type="text" value="P0004" style="width: 80px; text-align: center;"></td>
+                            <td><input type="text" value="15" style="width: 80px; text-align: center;"></td>
+                            <td><button class="delete-btn">Borrar</button></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" value="RC0005" style="width: 80px; text-align: center;"></td>
+                            <td><input type="text" value="4" style="width: 80px; text-align: center;"></td>
+                            <td><input type="text" value="16" style="width: 80px; text-align: center;"></td>
+                            <td><input type="text" value="P0005" style="width: 80px; text-align: center;"></td>
+                            <td><input type="text" value="20" style="width: 80px; text-align: center;"></td>
+                            <td><button class="delete-btn">Borrar</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Botón de Agregar centrado dentro del contenedor gris -->
+            <div class="agregar-btn-container" style="text-align: center; margin-top: 20px;">
+                <button class="new-btn" onclick="addRow()">Agregar</button>
+            </div>
+        </div>
+          
+        <!-- Botones de Cancelar y Guardar con redirección -->
+        <div class="button-container" style="display: flex; justify-content: space-between; margin-top: 20px;">
+            <button class="delete-btn" onclick="redirectToDetalle()">Cancelar</button>
+            <button class="new-btn" onclick="saveChanges()">Guardar</button>
+        </div>
+    </div>
+</body>
+</html>

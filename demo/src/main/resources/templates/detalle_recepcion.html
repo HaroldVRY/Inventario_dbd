@@ -11,49 +11,85 @@
         <a href="/recepciones" class="back-icon" aria-label="Volver">&#x2190;</a>
         <div class="title-container">
             <img src="/images/logo_recepciones.png" alt="Icono Recepciones" class="title-icon">
-            <h1>Recepciones</h1>
+            <h1>Detalle de Recepción</h1>
         </div>
     </div>
 
-    <div class="detalle-container">
-        <div class="content-box">
+    <div class="detalle-container" style="margin-top: 80px;">
+        <div class="content-box" style="width: 100%;">
             <div class="detalle-header">
-                <h2>GR00001</h2>
+                <h2>GR0001</h2>
             </div>
-            <div class="informacion-recepcion">
-                <p><strong>Recibir de:</strong> Posco</p>
+            <div class="informacion-recepcion" style="margin-top: 20px;">
+                <p><strong>ID:</strong> GR0001</p>
+                <p><strong>Recibir de:</strong> Proveedores S.A.</p>
                 <p><strong>Tipo de Operación:</strong> Recepción</p>
                 <p><strong>Prioridad:</strong> Urgente</p>
-                <p><strong>Estado:</strong> Listo</p>
-                <p><strong>Fecha Programada:</strong> 20/09/2024</p>
-                <p><strong>Fecha Efectiva:</strong> 24/09/2024</p>
-                <p><strong>Documento Origen:</strong> G. R. Nº 572</p>
+                <p><strong>Estado:</strong> En Proceso</p>
+                <p><strong>Fecha Programada:</strong> 2023-01-01</p>
+                <p><strong>Fecha Efectiva:</strong> 2023-01-02</p>
+                <p><strong>Documento Origen:</strong> OC0001</p>
+                <p><strong>ID del Empleado:</strong> E01008</p>
             </div>
 
-            <div class="table-box">
-                <table>
+            <div class="table-box" style="margin-top: 20px;">
+                <table style="width: 100%; ">
                     <thead>
                         <tr>
-                            <th>Producto</th>
+                            <th>ID Recurso</th>
+                            <th>Cantidad Recurso</th>
                             <th>Demanda</th>
-                            <th>Cantidad</th>
+                            <th>ID Producto</th>
+                            <th>Cantidad Producto</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Acero Laminado</td>
-                            <td>40,00</td>
-                            <td>40,00</td>
+                            <td>RC0001</td> <!-- ID Recurso aleatorio -->
+                            <td>5</td> <!-- Cantidad Recurso -->
+                            <td>15</td> <!-- Demanda -->
+                            <td>P0001</td> <!-- ID Producto aleatorio -->
+                            <td>10</td> <!-- Cantidad Producto -->
+                        </tr>
+                        <tr>
+                            <td>RC0002</td>
+                            <td>8</td>
+                            <td>20</td>
+                            <td>P0002</td>
+                            <td>12</td>
+                        </tr>
+                        <tr>
+                            <td>RC0003</td>
+                            <td>2</td>
+                            <td>10</td>
+                            <td>P0003</td>
+                            <td>8</td>
+                        </tr>
+                        <tr>
+                            <td>RC0004</td>
+                            <td>7</td>
+                            <td>18</td>
+                            <td>P0004</td>
+                            <td>15</td>
+                        </tr>
+                        <tr>
+                            <td>RC0005</td>
+                            <td>4</td>
+                            <td>16</td>
+                            <td>P0005</td>
+                            <td>20</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-        </div>
-
-        <!-- Contenedor para centrar el botón de Actualizar -->
-        <div class="button-center-container">
-            <button class="actualizar-btn">Actualizar</button>
-        </div>
     </div>
+
+            <div class="button-center-container" style="margin-top: 20px;">
+                <a href="/editar_recepcion?id=GR0001">
+                    <button class="new-btn">Editar</button>
+                </a>
+            </div>
+        </div>
+    
 </body>
 </html>
