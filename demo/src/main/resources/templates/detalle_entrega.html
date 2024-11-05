@@ -8,52 +8,122 @@
 </head>
 <body>
     <div class="header-bar entregas">
-        <a href="/entregas" class="back-icon" aria-label="Volver">&#x2190;</a>
+        <a href="/entregas" class="back-icon" onclick="redirectToDetalle()" aria-label="Cancelar">&#x2190;</a>
         <div class="title-container">
-            <img src="/images/logo_entregas.png" alt="Icono Entregas" class="title-icon">
-            <h1>Entregas</h1>
+            <img src="/images/logo_entregas.png" alt="Icono Entrega" class="title-icon">
+            <h1>Detalle de Entrega</h1>
         </div>
     </div>
 
-    <div class="detalle-container" style="margin-top: 100px;">
-        <div class="entregas-content-box">
+    <div class="detalle-container" style="margin-top: 80px; display: flex; justify-content: center;">
+        <div class="content-box" style="width: 80%; padding-bottom: 20px; background-color: #e0f7e0;">
             <div class="detalle-header">
-                <h2>GR00001</h2>
+                <h2 id="detalle-id"></h2>
             </div>
             <div class="informacion-recepcion" style="margin-top: 20px;">
-                <p><strong>Recibir de:</strong> Minera Chinalco</p>
-                <p><strong>Tipo de Operación:</strong> Entrega</p>
-                <p><strong>Prioridad:</strong> Urgente</p>
-                <p><strong>Estado:</strong> Listo</p>
-                <p><strong>Fecha Programada:</strong> 20/09/2024</p>
-                <p><strong>Fecha Efectiva:</strong> 24/09/2024</p>
-                <p><strong>Documento Origen:</strong> G. R. Nº 573</p>
+                <p><strong>ID:</strong> <span id="detalle-id-text"></span></p>
+                <p><strong>Entidad Origen/Destino:</strong> <span id="detalle-entidad"></span></p>
+                <p><strong>Tipo de Operación:</strong> <span id="detalle-tipo-operacion"></span></p>
+                <p><strong>Estado:</strong> <span id="detalle-estado"></span></p>
+                <p><strong>Fecha Programada:</strong> <span id="detalle-fecha-programada"></span></p>
+                <p><strong>Fecha Efectiva:</strong> <span id="detalle-fecha-efectiva"></span></p>
+                <p><strong>Documento Origen:</strong> <span id="detalle-doc-origen"></span></p>
+                <p><strong>ID del Empleado:</strong> <span id="detalle-id-empleado"></span></p>
             </div>
 
-            <div class="entregas-table-box table-box" style="margin-top: 20px;">
-                <table style="width: 100%;">
+            <!-- Tabla editable sin título, pero con encabezado -->
+            <div class="table-box" style="margin-top: 20px; text-align: center;">
+                <table style="width: 100%; text-align: center;">
                     <thead>
                         <tr>
-                            <th>Producto</th>
+                            <th>Nombre del Producto</th>
+                            <th>Cantidad Producto</th>
+                            <th>Nombre del Recurso</th>
+                            <th>Cantidad Recurso</th>
                             <th>Demanda</th>
-                            <th>Cantidad</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>Acero Laminado</td>
-                            <td>40,00</td>
-                            <td>40,00</td>
-                        </tr>
+                    <tbody id="detalle-guia">
+                        <!-- Aquí se insertará el detalle de la guía en modo de edición -->
                     </tbody>
                 </table>
             </div>
-        </div>
 
-        <!-- Botón de Editar centrado debajo del contenedor verde -->
-        <div class="button-center-container" style="margin-top: 20px;">
-            <button class="new-btn" onclick="location.href='/editar_entrega?id=GR00001'">Editar</button>
+            <div class="button-center-container" style="text-align: center; margin-top: 20px;">
+                <button class="new-btn" onclick="editDetail()">Editar</button>
+            </div>
         </div>
     </div>
+
+    <script>
+        // Datos de ejemplo de guías
+        const guiasRemision = [
+            { id: 'GR0006', entidad: 'Metalúrgica Perú', tipoOperacion: 'Despacho', estado: 'Listo', fechaProgramada: '2023-03-20', fechaEfectiva: '2023-03-21', docOrigen: 'OP0006', idEmpleado: 'E01008' },
+            { id: 'GR0007', entidad: 'Estructuras y Suministros', tipoOperacion: 'Despacho', estado: 'Proceso', fechaProgramada: '2023-04-01', fechaEfectiva: '2023-04-02', docOrigen: 'OP0007', idEmpleado: 'E01008' },
+            { id: 'GR0008', entidad: 'Almacenes y Metales', tipoOperacion: 'Despacho', estado: 'Listo', fechaProgramada: '2023-04-10', fechaEfectiva: '2023-04-11', docOrigen: 'OP0008', idEmpleado: 'E01008' },
+            { id: 'GR0009', entidad: 'Servicio de Alquiler', tipoOperacion: 'Despacho', estado: 'Proceso', fechaProgramada: '2023-05-01', fechaEfectiva: '2023-05-02', docOrigen: 'OP0009', idEmpleado: 'E01008' },
+            { id: 'GR0010', entidad: 'Constructora Lima', tipoOperacion: 'Despacho', estado: 'Listo', fechaProgramada: '2023-05-15', fechaEfectiva: '2023-05-16', docOrigen: 'OP0010', idEmpleado: 'E01008' }
+        ];
+
+        // Datos de ejemplo de detalle de guías
+        const detalleGuiaData = {
+            'GR0006': [{ producto: 'Tubos HDPE', cantidadProducto: 25, recurso: 'Madera', cantidadRecurso: 8, demanda: 30 }],
+            'GR0007': [{ producto: 'Grúa Móvil', cantidadProducto: 14, recurso: 'Cables de acero', cantidadRecurso: 6, demanda: 14 }],
+            'GR0008': [{ producto: 'Plataforma Elevadora', cantidadProducto: 11, recurso: 'Sistemas de soldadura', cantidadRecurso: 5, demanda: 13 }],
+            'GR0009': [{ producto: 'Escalera Metálica', cantidadProducto: 17, recurso: 'Pintura industrial', cantidadRecurso: 3, demanda: 21 }],
+            'GR0010': [{ producto: 'Soporte Metálico', cantidadProducto: 19, recurso: 'Equipos de seguridad', cantidadRecurso: 2, demanda: 16 }]
+        };
+
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        function cargarDetalleEditable() {
+            const guiaId = getQueryParam('id');
+            const guia = guiasRemision.find(g => g.id === guiaId);
+
+            if (guia) {
+                document.getElementById('detalle-id').innerText = guia.id;
+                document.getElementById('detalle-id-text').innerText = guia.id;
+                document.getElementById('detalle-entidad').innerText = guia.entidad;
+                document.getElementById('detalle-tipo-operacion').innerText = guia.tipoOperacion;
+                document.getElementById('detalle-estado').innerText = guia.estado;
+                document.getElementById('detalle-fecha-programada').innerText = guia.fechaProgramada;
+                document.getElementById('detalle-fecha-efectiva').innerText = guia.fechaEfectiva;
+                document.getElementById('detalle-doc-origen').innerText = guia.docOrigen;
+                document.getElementById('detalle-id-empleado').innerText = guia.idEmpleado;
+
+                const detalle = detalleGuiaData[guiaId] || [];
+                const detalleGuiaTable = document.getElementById('detalle-guia');
+                detalleGuiaTable.innerHTML = '';
+
+                detalle.forEach(item => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${item.producto}</td>
+                        <td>${item.cantidadProducto}</td>
+                        <td>${item.recurso}</td>
+                        <td>${item.cantidadRecurso}</td>
+                        <td>${item.demanda}</td>
+                    `;
+                    detalleGuiaTable.appendChild(row);
+                });
+            } else {
+                alert("Guía de remisión no encontrada.");
+            }
+        }
+
+        function redirectToDetalle() {
+            window.location.href = "/detalle_recepcion.html";
+        }
+
+        function editDetail() {
+            const guiaId = getQueryParam('id');
+            window.location.href = `/editar_entrega?id=${guiaId}`;
+        }
+
+        window.onload = cargarDetalleEditable;
+    </script>
 </body>
 </html>

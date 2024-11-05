@@ -5,47 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Recepción</title>
     <link rel="stylesheet" href="/css/styles.css">
-    <style>
-        /* Ajuste de tamaño de los inputs de la tabla */
-        .table-box input[type="text"] {
-            width: 80px; /* Reduce el ancho de los inputs */
-        }
-    </style>
-    <script>
-        function redirectToDetalle() {
-            if (confirm("¿Está seguro de cancelar los cambios?")) {
-                window.location.href = "/detalle_recepcion?id=GR0001";
-            }
-        }
-
-        function saveChanges() {
-            alert("Cambios guardados");
-            window.location.href = "/detalle_recepcion?id=GR0001";
-        }
-
-        function addRow() {
-            const table = document.getElementById("detalle-table").getElementsByTagName("tbody")[0];
-            const newRow = table.insertRow();
-
-            ["ID Recurso", "Cantidad Recurso", "Demanda", "ID Producto", "Cantidad Producto"].forEach((placeholder) => {
-                const cell = newRow.insertCell();
-                const input = document.createElement("input");
-                input.type = "text";
-                input.placeholder = placeholder;
-                input.style.width = "80px"; // Aplica el estilo reducido a los nuevos inputs
-                cell.appendChild(input);
-            });
-
-            const deleteCell = newRow.insertCell();
-            const deleteButton = document.createElement("button");
-            deleteButton.className = "delete-btn";
-            deleteButton.innerText = "Borrar";
-            deleteButton.onclick = function() {
-                table.deleteRow(newRow.rowIndex - 1);
-            };
-            deleteCell.appendChild(deleteButton);
-        }
-    </script>
 </head>
 <body>
     <div class="header-bar">
@@ -59,89 +18,174 @@
     <div class="detalle-container" style="margin-top: 80px;">
         <div class="content-box" style="width: 100%; padding-bottom: 20px;">
             <div class="detalle-header">
-                <h2>GR0001</h2>
+                <h2 id="detalle-id"></h2>
             </div>
             <div class="informacion-recepcion" style="margin-top: 20px;">
-                <p><strong>ID:</strong> GR0001</p>
-                <p><strong>Recibir de:</strong> <input type="text" value="Proveedores S.A." style="text-align: center;"></p>
-                <p><strong>Tipo de Operación:</strong> <input type="text" value="Recepción" style="text-align: center;"></p>
-                <p><strong>Prioridad:</strong> <input type="text" value="Urgente" style="text-align: center;"></p>
-                <p><strong>Estado:</strong> <input type="text" value="En Proceso" style="text-align: center;"></p>
-                <p><strong>Fecha Programada:</strong> <input type="date" value="2023-01-01" style="text-align: center;"></p>
-                <p><strong>Fecha Efectiva:</strong> <input type="date" value="2023-01-02" style="text-align: center;"></p>
-                <p><strong>Documento Origen:</strong> <input type="text" value="OC0001" style="text-align: center;"></p>
-                <p><strong>ID del Empleado:</strong> <input type="text" value="E01008" style="text-align: center;"></p>
+                <p><strong>ID:</strong> <input type="text" id="detalle-id-text"></p>
+                <p><strong>Recibir de:</strong> <input type="text" id="detalle-entidad"></p>
+                <p><strong>Tipo de Operación:</strong> <input type="text" id="detalle-tipo-operacion"></p>
+                <p><strong>Prioridad:</strong> <input type="text" id="detalle-prioridad"></p>
+                <p><strong>Estado:</strong> <input type="text" id="detalle-estado"></p>
+                <p><strong>Fecha Programada:</strong> <input type="date" id="detalle-fecha-programada"></p>
+                <p><strong>Fecha Efectiva:</strong> <input type="date" id="detalle-fecha-efectiva"></p>
+                <p><strong>Documento Origen:</strong> <input type="text" id="detalle-doc-origen"></p>
+                <p><strong>ID del Empleado:</strong> <input type="text" id="detalle-id-empleado"></p>
             </div>
 
+            <!-- Tabla editable sin título, pero con encabezado -->
             <div class="table-box" style="margin-top: 20px;">
-                <table id="detalle-table" style="width: 100%;">
+                <table style="width: 100%;">
                     <thead>
                         <tr>
-                            <th>ID Recurso</th>
+                            <th>Nombre del Producto</th>
+                            <th>Cantidad Producto</th>
+                            <th>Nombre del Recurso</th>
                             <th>Cantidad Recurso</th>
                             <th>Demanda</th>
-                            <th>ID Producto</th>
-                            <th>Cantidad Producto</th>
-                            <th>Acciones</th>
+                            <th>Acción</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <!-- Existing rows from detalle_guia -->
-                        <tr>
-                            <td><input type="text" value="RC0001" style="width: 80px; text-align: center;"></td>
-                            <td><input type="text" value="5" style="width: 80px; text-align: center;"></td>
-                            <td><input type="text" value="15" style="width: 80px; text-align: center;"></td>
-                            <td><input type="text" value="P0001" style="width: 80px; text-align: center;"></td>
-                            <td><input type="text" value="10" style="width: 80px; text-align: center;"></td>
-                            <td><button class="delete-btn">Borrar</button></td>
-                        </tr>
-                        <tr>
-                            <td><input type="text" value="RC0002" style="width: 80px; text-align: center;"></td>
-                            <td><input type="text" value="8" style="width: 80px; text-align: center;"></td>
-                            <td><input type="text" value="20" style="width: 80px; text-align: center;"></td>
-                            <td><input type="text" value="P0002" style="width: 80px; text-align: center;"></td>
-                            <td><input type="text" value="12" style="width: 80px; text-align: center;"></td>
-                            <td><button class="delete-btn">Borrar</button></td>
-                        </tr>
-                        <tr>
-                            <td><input type="text" value="RC0003" style="width: 80px; text-align: center;"></td>
-                            <td><input type="text" value="2" style="width: 80px; text-align: center;"></td>
-                            <td><input type="text" value="10" style="width: 80px; text-align: center;"></td>
-                            <td><input type="text" value="P0003" style="width: 80px; text-align: center;"></td>
-                            <td><input type="text" value="8" style="width: 80px; text-align: center;"></td>
-                            <td><button class="delete-btn">Borrar</button></td>
-                        </tr>
-                        <tr>
-                            <td><input type="text" value="RC0004" style="width: 80px; text-align: center;"></td>
-                            <td><input type="text" value="7" style="width: 80px; text-align: center;"></td>
-                            <td><input type="text" value="18" style="width: 80px; text-align: center;"></td>
-                            <td><input type="text" value="P0004" style="width: 80px; text-align: center;"></td>
-                            <td><input type="text" value="15" style="width: 80px; text-align: center;"></td>
-                            <td><button class="delete-btn">Borrar</button></td>
-                        </tr>
-                        <tr>
-                            <td><input type="text" value="RC0005" style="width: 80px; text-align: center;"></td>
-                            <td><input type="text" value="4" style="width: 80px; text-align: center;"></td>
-                            <td><input type="text" value="16" style="width: 80px; text-align: center;"></td>
-                            <td><input type="text" value="P0005" style="width: 80px; text-align: center;"></td>
-                            <td><input type="text" value="20" style="width: 80px; text-align: center;"></td>
-                            <td><button class="delete-btn">Borrar</button></td>
-                        </tr>
+                    <tbody id="detalle-guia">
+                        <!-- Aquí se insertará el detalle de la guía en modo de edición -->
                     </tbody>
                 </table>
             </div>
 
-            <!-- Botón de Agregar centrado dentro del contenedor gris -->
+            <!-- Botón Agregar dentro del recuadro gris -->
             <div class="agregar-btn-container" style="text-align: center; margin-top: 20px;">
                 <button class="new-btn" onclick="addRow()">Agregar</button>
             </div>
         </div>
-          
-        <!-- Botones de Cancelar y Guardar con redirección -->
-        <div class="button-container" style="display: flex; justify-content: space-between; margin-top: 20px;">
-            <button class="delete-btn" onclick="redirectToDetalle()">Cancelar</button>
-            <button class="new-btn" onclick="saveChanges()">Guardar</button>
-        </div>
     </div>
+
+    <!-- Botones Cancelar y Guardar fuera del recuadro gris y centrados -->
+    <div class="button-center-container" style="display: flex; justify-content: space-between; padding: 0 50px; margin-top: 20px; padding-bottom: 40px;">
+        <button class="delete-btn" onclick="redirectToDetalle()" style="width: 150px;">Cancelar</button>
+        <button class="new-btn" onclick="saveChanges()" style="width: 150px;">Guardar</button>
+    </div>
+
+    <script>
+        // Datos de ejemplo
+        const guiasRemision = [
+            { id: 'GR0001', entidad: 'Proveedores S.A.', tipoOperacion: 'Recepción', prioridad: 'Urgente', estado: 'En Proceso', fechaProgramada: '2023-01-01', fechaEfectiva: '2023-01-02', docOrigen: 'OC0001', idEmpleado: 'E01008' },
+            { id: 'GR0002', entidad: 'Metalco Ltda.', tipoOperacion: 'Recepción', prioridad: 'Normal', estado: 'Listo', fechaProgramada: '2023-01-15', fechaEfectiva: '2023-01-16', docOrigen: 'OC0002', idEmpleado: 'E01008' },
+            { id: 'GR0003', entidad: 'Construcción y Proyectos', tipoOperacion: 'Despacho', prioridad: 'Urgente', estado: 'En Proceso', fechaProgramada: '2023-02-01', fechaEfectiva: '2023-02-02', docOrigen: 'OC0003', idEmpleado: 'E01008' },
+            { id: 'GR0004', entidad: 'Herramientas y Equipos S.A.', tipoOperacion: 'Despacho', prioridad: 'Normal', estado: 'Listo', fechaProgramada: '2023-02-15', fechaEfectiva: '2023-02-16', docOrigen: 'OC0004', idEmpleado: 'E01008' },
+            { id: 'GR0005', entidad: 'Suministros Industriales', tipoOperacion: 'Recepción', prioridad: 'Urgente', estado: 'En Proceso', fechaProgramada: '2023-03-01', fechaEfectiva: '2023-03-02', docOrigen: 'OC0005', idEmpleado: 'E01008' }
+        ];
+
+        // Datos de detalle de la guía
+        const detalleGuiaData = [
+            { producto: 'Tanque de Almacenamiento', cantidadProducto: 10, recurso: 'Acero', cantidadRecurso: 5, demanda: 15 },
+            { producto: 'Puente Metálico', cantidadProducto: 12, recurso: 'Cemento', cantidadRecurso: 3, demanda: 20 },
+            { producto: 'Faja Transportadora', cantidadProducto: 8, recurso: 'Arena', cantidadRecurso: 2, demanda: 10 },
+            { producto: 'Estructura Metálica', cantidadProducto: 15, recurso: 'Grava', cantidadRecurso: 7, demanda: 12 },
+            { producto: 'Almacén Prefabricado', cantidadProducto: 20, recurso: 'Tubos HDPE', cantidadRecurso: 4, demanda: 18 }
+        ];
+
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        function cargarDetalleEditable() {
+            const guiaId = getQueryParam('id');
+            
+            // Si la ID es "new", dejamos los campos vacíos
+            if (guiaId === 'new') {
+                document.getElementById('detalle-id').innerText = '';
+                document.getElementById('detalle-id-text').value = '';
+                document.getElementById('detalle-entidad').value = '';
+                document.getElementById('detalle-tipo-operacion').value = '';
+                document.getElementById('detalle-prioridad').value = '';
+                document.getElementById('detalle-estado').value = '';
+                document.getElementById('detalle-fecha-programada').value = '';
+                document.getElementById('detalle-fecha-efectiva').value = '';
+                document.getElementById('detalle-doc-origen').value = '';
+                document.getElementById('detalle-id-empleado').value = '';
+            } else {
+                // Cargar datos existentes
+                const guia = guiasRemision.find(g => g.id === guiaId);
+
+                if (guia) {
+                    document.getElementById('detalle-id').innerText = guia.id;
+                    document.getElementById('detalle-id-text').value = guia.id;
+                    document.getElementById('detalle-entidad').value = guia.entidad;
+                    document.getElementById('detalle-tipo-operacion').value = guia.tipoOperacion;
+                    document.getElementById('detalle-prioridad').value = guia.prioridad;
+                    document.getElementById('detalle-estado').value = guia.estado;
+                    document.getElementById('detalle-fecha-programada').value = guia.fechaProgramada;
+                    document.getElementById('detalle-fecha-efectiva').value = guia.fechaEfectiva;
+                    document.getElementById('detalle-doc-origen').value = guia.docOrigen;
+                    document.getElementById('detalle-id-empleado').value = guia.idEmpleado;
+
+                    const detalleIndex = parseInt(guiaId.slice(-1)) - 1;
+                    const detalle = detalleGuiaData[detalleIndex];
+
+                    if (detalle) {
+                        const detalleGuiaTable = document.getElementById('detalle-guia');
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td><input type="text" value="${detalle.producto}" style="width: 100%;"></td>
+                            <td><input type="text" value="${detalle.cantidadProducto}" style="width: 100%;"></td>
+                            <td><input type="text" value="${detalle.recurso}" style="width: 100%;"></td>
+                            <td><input type="text" value="${detalle.cantidadRecurso}" style="width: 100%;"></td>
+                            <td><input type="text" value="${detalle.demanda}" style="width: 100%;"></td>
+                            <td><button class="delete-btn" onclick="deleteRow(this)">Borrar</button></td>
+                        `;
+                        detalleGuiaTable.appendChild(row);
+                    }
+                } else {
+                    alert("Guía de remisión no encontrada.");
+                }
+            }
+        }
+
+        function redirectToDetalle() {
+            const guiaId = getQueryParam('id');
+            if (guiaId === 'new') {
+                // Redirigir a recepciones.html si es un nuevo registro
+                window.location.href = "/recepciones";
+            } else {
+                // Redirigir al detalle si no es un nuevo registro
+                if (confirm("¿Está seguro de cancelar los cambios?")) {
+                    window.location.href = `/detalle_recepcion?id=${guiaId}`;
+                }
+            }
+        }
+
+        function saveChanges() {
+            const guiaId = getQueryParam('id');
+            alert("Cambios guardados");
+            if (guiaId === 'new') {
+                // Redirigir a recepciones.html si es un nuevo registro
+                window.location.href = "/recepciones";
+            } else {
+                // Redirigir al detalle si no es un nuevo registro
+                window.location.href = `/detalle_recepcion?id=${guiaId}`;
+            }
+        }
+
+        function addRow() {
+            const table = document.getElementById("detalle-guia");
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td><input type="text" style="width: 100%;" placeholder="Nombre del Producto"></td>
+                <td><input type="text" style="width: 100%;" placeholder="Cantidad Producto"></td>
+                <td><input type="text" style="width: 100%;" placeholder="Nombre del Recurso"></td>
+                <td><input type="text" style="width: 100%;" placeholder="Cantidad Recurso"></td>
+                <td><input type="text" style="width: 100%;" placeholder="Demanda"></td>
+                <td><button class="delete-btn" onclick="deleteRow(this)">Borrar</button></td>
+            `;
+            table.appendChild(row);
+        }
+
+        function deleteRow(button) {
+            const row = button.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+        }
+
+        window.onload = cargarDetalleEditable;
+    </script>
 </body>
 </html>

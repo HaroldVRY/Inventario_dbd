@@ -18,78 +18,115 @@
     <div class="detalle-container" style="margin-top: 80px;">
         <div class="content-box" style="width: 100%;">
             <div class="detalle-header">
-                <h2>GR0001</h2>
+                <h2 id="detalle-id"></h2>
             </div>
             <div class="informacion-recepcion" style="margin-top: 20px;">
-                <p><strong>ID:</strong> GR0001</p>
-                <p><strong>Recibir de:</strong> Proveedores S.A.</p>
-                <p><strong>Tipo de Operación:</strong> Recepción</p>
-                <p><strong>Prioridad:</strong> Urgente</p>
-                <p><strong>Estado:</strong> En Proceso</p>
-                <p><strong>Fecha Programada:</strong> 2023-01-01</p>
-                <p><strong>Fecha Efectiva:</strong> 2023-01-02</p>
-                <p><strong>Documento Origen:</strong> OC0001</p>
-                <p><strong>ID del Empleado:</strong> E01008</p>
+                <p><strong>ID:</strong> <span id="detalle-id-text"></span></p>
+                <p><strong>Recibir de:</strong> <span id="detalle-entidad"></span></p>
+                <p><strong>Tipo de Operación:</strong> <span id="detalle-tipo-operacion"></span></p>
+                <p><strong>Prioridad:</strong> <span id="detalle-prioridad"></span></p>
+                <p><strong>Estado:</strong> <span id="detalle-estado"></span></p>
+                <p><strong>Fecha Programada:</strong> <span id="detalle-fecha-programada"></span></p>
+                <p><strong>Fecha Efectiva:</strong> <span id="detalle-fecha-efectiva"></span></p>
+                <p><strong>Documento Origen:</strong> <span id="detalle-doc-origen"></span></p>
+                <p><strong>ID del Empleado:</strong> <span id="detalle-id-empleado"></span></p>
             </div>
 
+            <!-- Tabla sin título, pero con encabezado -->
             <div class="table-box" style="margin-top: 20px;">
-                <table style="width: 100%; ">
+                <table style="width: 100%;">
                     <thead>
                         <tr>
-                            <th>ID Recurso</th>
+                            <th>Nombre del Producto</th>
+                            <th>Cantidad Producto</th>
+                            <th>Nombre del Recurso</th>
                             <th>Cantidad Recurso</th>
                             <th>Demanda</th>
-                            <th>ID Producto</th>
-                            <th>Cantidad Producto</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>RC0001</td> <!-- ID Recurso aleatorio -->
-                            <td>5</td> <!-- Cantidad Recurso -->
-                            <td>15</td> <!-- Demanda -->
-                            <td>P0001</td> <!-- ID Producto aleatorio -->
-                            <td>10</td> <!-- Cantidad Producto -->
-                        </tr>
-                        <tr>
-                            <td>RC0002</td>
-                            <td>8</td>
-                            <td>20</td>
-                            <td>P0002</td>
-                            <td>12</td>
-                        </tr>
-                        <tr>
-                            <td>RC0003</td>
-                            <td>2</td>
-                            <td>10</td>
-                            <td>P0003</td>
-                            <td>8</td>
-                        </tr>
-                        <tr>
-                            <td>RC0004</td>
-                            <td>7</td>
-                            <td>18</td>
-                            <td>P0004</td>
-                            <td>15</td>
-                        </tr>
-                        <tr>
-                            <td>RC0005</td>
-                            <td>4</td>
-                            <td>16</td>
-                            <td>P0005</td>
-                            <td>20</td>
-                        </tr>
+                    <tbody id="detalle-guia">
+                        <!-- Aquí se insertará el detalle de la guía según el ID -->
                     </tbody>
                 </table>
             </div>
-    </div>
 
             <div class="button-center-container" style="margin-top: 20px;">
-                <a href="/editar_recepcion?id=GR0001">
+                <a id="editar-link" href="">
                     <button class="new-btn">Editar</button>
                 </a>
             </div>
         </div>
-    
+    </div>
+
+    <script>
+        // Datos de ejemplo
+        const guiasRemision = [
+            { id: 'GR0001', entidad: 'Proveedores S.A.', tipoOperacion: 'Recepción', prioridad: 'Urgente', estado: 'En Proceso', fechaProgramada: '2023-01-01', fechaEfectiva: '2023-01-02', docOrigen: 'OC0001', idEmpleado: 'E01008' },
+            { id: 'GR0002', entidad: 'Metalco Ltda.', tipoOperacion: 'Recepción', prioridad: 'Normal', estado: 'Listo', fechaProgramada: '2023-01-15', fechaEfectiva: '2023-01-16', docOrigen: 'OC0002', idEmpleado: 'E01008' },
+            { id: 'GR0003', entidad: 'Construcción y Proyectos', tipoOperacion: 'Recepción', prioridad: 'Urgente', estado: 'En Proceso', fechaProgramada: '2023-02-01', fechaEfectiva: '2023-02-02', docOrigen: 'OC0003', idEmpleado: 'E01008' },
+            { id: 'GR0004', entidad: 'Herramientas y Equipos S.A.', tipoOperacion: 'Recepción', prioridad: 'Normal', estado: 'Listo', fechaProgramada: '2023-02-15', fechaEfectiva: '2023-02-16', docOrigen: 'OC0004', idEmpleado: 'E01008' },
+            { id: 'GR0005', entidad: 'Suministros Industriales', tipoOperacion: 'Recepción', prioridad: 'Urgente', estado: 'En Proceso', fechaProgramada: '2023-03-01', fechaEfectiva: '2023-03-02', docOrigen: 'OC0005', idEmpleado: 'E01008' }
+        ];
+
+        // Datos de detalle de la guía
+        const detalleGuiaData = [
+            { producto: 'Tanque de Almacenamiento', cantidadProducto: 10, recurso: 'Acero', cantidadRecurso: 5, demanda: 15 },
+            { producto: 'Puente Metálico', cantidadProducto: 12, recurso: 'Cemento', cantidadRecurso: 3, demanda: 20 },
+            { producto: 'Faja Transportadora', cantidadProducto: 8, recurso: 'Arena', cantidadRecurso: 2, demanda: 10 },
+            { producto: 'Estructura Metálica', cantidadProducto: 15, recurso: 'Grava', cantidadRecurso: 7, demanda: 12 },
+            { producto: 'Almacén Prefabricado', cantidadProducto: 20, recurso: 'Tubos HDPE', cantidadRecurso: 4, demanda: 18 }
+        ];
+
+        // Función para obtener el ID de la URL
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // Función para cargar los datos en el HTML
+        function cargarDetalle() {
+            const guiaId = getQueryParam('id');
+            const guia = guiasRemision.find(g => g.id === guiaId);
+
+            if (guia) {
+                document.getElementById('detalle-id').innerText = guia.id;
+                document.getElementById('detalle-id-text').innerText = guia.id;
+                document.getElementById('detalle-entidad').innerText = guia.entidad;
+                document.getElementById('detalle-tipo-operacion').innerText = guia.tipoOperacion;
+                document.getElementById('detalle-prioridad').innerText = guia.prioridad;
+                document.getElementById('detalle-estado').innerText = guia.estado;
+                document.getElementById('detalle-fecha-programada').innerText = guia.fechaProgramada;
+                document.getElementById('detalle-fecha-efectiva').innerText = guia.fechaEfectiva;
+                document.getElementById('detalle-doc-origen').innerText = guia.docOrigen;
+                document.getElementById('detalle-id-empleado').innerText = guia.idEmpleado;
+
+                // Actualizar el enlace de edición con el ID actual
+                document.getElementById('editar-link').href = `/editar_recepcion?id=${guia.id}`;
+
+                // Cargar el detalle de la guía según el índice del ID
+                const detalleIndex = parseInt(guiaId.slice(-1)) - 1;
+                const detalle = detalleGuiaData[detalleIndex];
+
+                // Agregar fila de datos a la tabla
+                if (detalle) {
+                    const detalleGuiaTable = document.getElementById('detalle-guia');
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${detalle.producto}</td>
+                        <td>${detalle.cantidadProducto}</td>
+                        <td>${detalle.recurso}</td>
+                        <td>${detalle.cantidadRecurso}</td>
+                        <td>${detalle.demanda}</td>
+                    `;
+                    detalleGuiaTable.appendChild(row);
+                }
+            } else {
+                alert("Guía de remisión no encontrada.");
+            }
+        }
+
+        // Llamar a la función al cargar la página
+        window.onload = cargarDetalle;
+    </script>
 </body>
 </html>

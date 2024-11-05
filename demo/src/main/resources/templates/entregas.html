@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Entregas</title>
     <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/filtros.css">
     <style>
         /* Estilo para hacer que toda la fila sea clicable */
         .clickable-row a {
@@ -14,6 +15,29 @@
         }
         .clickable-row td {
             cursor: pointer;
+        }
+        /* Colores específicos para las barras y fondo de Entregas */
+        .header-bar.entregas {
+            background-color: #4caf50; /* Verde del título */
+            color: white;
+        }
+        .entregas-container .content-box {
+            background-color: #d0f7d0; /* Fondo verde claro del cuadro */
+            border-radius: 8px;
+            padding: 15px;
+        }
+        /* Estilos para los estados */
+        .status.listo {
+            background-color: #4caf50; /* Verde para Listo */
+            color: white;
+            padding: 4px 8px;
+            border-radius: 5px;
+        }
+        .status.proceso {
+            background-color: #FFA500; /* Naranja para Proceso */
+            color: white;
+            padding: 4px 8px;
+            border-radius: 5px;
         }
     </style>
 </head>
@@ -26,41 +50,290 @@
         </div>
     </div>
 
-    <div class="entregas-container">
-        <div class="content-box" style="margin-top: 100px; background-color: #d0f7d0;">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Referencia</th>
-                        <th>Contacto</th>
-                        <th>Fecha Programada</th>
-                        <th>Documento de origen</th>
-                        <th>Estado</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="clickable-row">
-                        <td><a href="/detalle_entrega?id=GR00001">GR00001</a></td>
-                        <td><a href="/detalle_entrega?id=GR00001">Minera Chinalco</a></td>
-                        <td><a href="/detalle_entrega?id=GR00001">20/09/2024</a></td>
-                        <td><a href="/detalle_entrega?id=GR00001">G. R. Nº 573</a></td>
-                        <td><a href="/detalle_entrega?id=GR00001"><span class="status listo">Listo</span></a></td>
-                    </tr>
-                    <tr class="clickable-row">
-                        <td><a href="/detalle_entrega?id=GR00002">GR00002</a></td>
-                        <td><a href="/detalle_entrega?id=GR00002">CIA Minera Perubar</a></td>
-                        <td><a href="/detalle_entrega?id=GR00002">21/10/2024</a></td>
-                        <td><a href="/detalle_entrega?id=GR00002">G. R. Nº 574</a></td>
-                        <td><a href="/detalle_entrega?id=GR00002"><span class="status borrador">Borrador</span></a></td>
-                    </tr>
-                </tbody>
-            </table>
+    <div class="content-container" style="margin-top: 60px;">
+        <!-- Contenedor de búsqueda y filtro -->
+        <div class="search-filter-container" style="margin-top: 30px;">
+            <input type="text" id="searchInput" placeholder="Buscar por referencia, contacto, etc.">
+            <button class="search-btn" onclick="searchTable()">
+                <span class="icon-search">&#128269;</span> <!-- Icono de lupa -->
+                Buscar
+            </button>
+            <button class="filter-btn" onclick="openModal()">
+                <span class="icon-filter">&#128209;</span> <!-- Icono de filtro -->
+                Filtrar
+            </button>
         </div>
 
-        <div class="button-container">
-            <button class="delete-btn">Eliminar</button>
-            <button class="new-btn" onclick="window.location.href='/editar_entrega?id=new'">Nuevo</button>
+        <div class="entregas-container">
+            <div class="content-box">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Referencia</th>
+                            <th>Contacto</th>
+                            <th>Fecha Programada</th>
+                            <th>Documento de origen</th>
+                            <th>Estado</th>
+                            <th class="accion-column" style="display:none;">Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="entregas-table">
+                        <tr data-id="GR0006" onclick="rowClickHandler(event)">
+                            <td>GR0006</td>
+                            <td>Metalúrgica Perú</td>
+                            <td>2023-03-20</td>
+                            <td>OP0006</td>
+                            <td><span class="status listo">Listo</span></td>
+                            <td class="accion-column" style="display:none;"><button class="delete-btn" onclick="deleteRow(event, this)">Borrar</button></td>
+                        </tr>
+                        <tr data-id="GR0007" onclick="rowClickHandler(event)">
+                            <td>GR0007</td>
+                            <td>Estructuras y Suministros</td>
+                            <td>2023-04-01</td>
+                            <td>OP0007</td>
+                            <td><span class="status proceso">Proceso</span></td>
+                            <td class="accion-column" style="display:none;"><button class="delete-btn" onclick="deleteRow(event, this)">Borrar</button></td>
+                        </tr>
+                        <tr data-id="GR0008" onclick="rowClickHandler(event)">
+                            <td>GR0008</td>
+                            <td>Almacenes y Metales</td>
+                            <td>2023-04-10</td>
+                            <td>OP0008</td>
+                            <td><span class="status listo">Listo</span></td>
+                            <td class="accion-column" style="display:none;"><button class="delete-btn" onclick="deleteRow(event, this)">Borrar</button></td>
+                        </tr>
+                        <tr data-id="GR0009" onclick="rowClickHandler(event)">
+                            <td>GR0009</td>
+                            <td>Servicio de Alquiler</td>
+                            <td>2023-05-01</td>
+                            <td>OP0009</td>
+                            <td><span class="status proceso">Proceso</span></td>
+                            <td class="accion-column" style="display:none;"><button class="delete-btn" onclick="deleteRow(event, this)">Borrar</button></td>
+                        </tr>
+                        <tr data-id="GR0010" onclick="rowClickHandler(event)">
+                            <td>GR0010</td>
+                            <td>Constructora Lima</td>
+                            <td>2023-05-15</td>
+                            <td>OP0010</td>
+                            <td><span class="status listo">Listo</span></td>
+                            <td class="accion-column" style="display:none;"><button class="delete-btn" onclick="deleteRow(event, this)">Borrar</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="button-container">
+                <button id="toggle-delete" class="delete-btn" onclick="toggleDeleteMode()">Eliminar</button>
+                <button id="save-btn" class="new-btn" onclick="saveChanges()" style="display:none;">Guardar</button>
+                <button id="new-btn" class="new-btn" onclick="window.location.href='/editar_entrega?id=new'">Nuevo</button>
+            </div>
+        </div>
+
+        <!-- Modal para filtros -->
+        <div class="modal-overlay" id="modalOverlay">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Filtros</h2>
+                </div>
+                <table class="filter-table">
+                    <thead>
+                        <tr>
+                            <th>Aplicar a</th>
+                            <th>Orden</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="filterTableBody">
+                        <tr>
+                            <td>
+                                <select class="filter-field" onchange="updateOrderOptions(this)">
+                                    <option value="referencia">Referencia</option>
+                                    <option value="contacto">Contacto</option>
+                                    <option value="fechaProgramada">Fecha Programada</option>
+                                    <option value="documentoOrigen">Documento de origen</option>
+                                    <option value="estado">Estado</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="order-option">
+                                    <option value="asc">Ascendente</option>
+                                    <option value="desc">Descendente</option>
+                                </select>
+                            </td>
+                            <td><button class="btn-action" onclick="removeRow(this)">Borrar</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button class="btn-add" onclick="addRow()">Agregar</button>
+                <div class="modal-footer">
+                    <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+                    <button class="btn-accept" onclick="applyFilters()">Aceptar</button>
+                </div>
+            </div>
         </div>
     </div>
+
+    <script>
+        let deleteMode = false;
+
+        function toggleDeleteMode() {
+            deleteMode = !deleteMode;
+            const deleteButtons = document.querySelectorAll(".accion-column");
+            const rows = document.querySelectorAll("#entregas-table tr");
+            document.getElementById("toggle-delete").innerText = deleteMode ? "Cancelar" : "Eliminar";
+            document.getElementById("new-btn").style.display = deleteMode ? "none" : "block";
+            document.getElementById("save-btn").style.display = deleteMode ? "block" : "none";
+
+            deleteButtons.forEach(button => {
+                button.style.display = deleteMode ? "table-cell" : "none";
+            });
+            rows.forEach(row => {
+                if (deleteMode) {
+                    row.removeAttribute("onclick");
+                } else {
+                    row.setAttribute("onclick", "rowClickHandler(event)");
+                }
+            });
+        }
+
+        function rowClickHandler(event) {
+            if (!deleteMode) {
+                const id = event.currentTarget.getAttribute("data-id");
+                window.location.href = `/detalle_entrega?id=${id}`;
+            }
+        }
+
+        function deleteRow(event, button) {
+            const row = button.closest("tr");
+            row.parentNode.removeChild(row);
+            event.stopPropagation();
+        }
+
+        function saveChanges() {
+            if (confirm("¿Guardar los cambios?")) {
+                hideDeleteButtons();
+                toggleDeleteMode();
+                window.location.href = "/entregas";
+            }
+        }
+
+        function searchTable() {
+            resetRows();
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const rows = document.querySelectorAll('#entregas-table tr');
+
+            rows.forEach(row => {
+                const rowText = row.textContent.toLowerCase();
+                row.style.display = rowText.includes(searchTerm) ? '' : 'none';
+            });
+        }
+
+        function openModal() {
+            document.getElementById("modalOverlay").style.display = "flex";
+        }
+
+        function closeModal() {
+            document.getElementById("modalOverlay").style.display = "none";
+        }
+
+        function addRow() {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>
+                    <select class="filter-field" onchange="updateOrderOptions(this)">
+                        <option value="referencia">Referencia</option>
+                        <option value="contacto">Contacto</option>
+                        <option value="fechaProgramada">Fecha Programada</option>
+                        <option value="documentoOrigen">Documento de origen</option>
+                        <option value="estado">Estado</option>
+                    </select>
+                </td>
+                <td>
+                    <select class="order-option">
+                        <option value="asc">Ascendente</option>
+                        <option value="desc">Descendente</option>
+                    </select>
+                </td>
+                <td><button class="btn-action" onclick="removeRow(this)">Borrar</button></td>
+            `;
+            document.getElementById("filterTableBody").appendChild(row);
+        }
+
+        function removeRow(button) {
+            button.parentElement.parentElement.remove();
+        }
+
+        function updateOrderOptions(select) {
+            const orderSelect = select.parentElement.nextElementSibling.querySelector(".order-option");
+            orderSelect.innerHTML = "";
+
+            if (select.value === "estado") {
+                orderSelect.innerHTML = `
+                    <option value="listo">Listo</option>
+                    <option value="proceso">Proceso</option>
+                `;
+            } else {
+                orderSelect.innerHTML = `
+                    <option value="asc">Ascendente</option>
+                    <option value="desc">Descendente</option>
+                `;
+            }
+        }
+
+        function resetRows() {
+            const rows = Array.from(document.querySelectorAll("#entregas-table tr"));
+            rows.forEach(row => row.style.display = "");
+        }
+
+        function applyFilters() {
+            resetRows();
+            const rows = Array.from(document.querySelectorAll("#entregas-table tr"));
+            const filters = Array.from(document.querySelectorAll("#filterTableBody tr"));
+
+            filters.forEach(filterRow => {
+                const field = filterRow.querySelector(".filter-field").value;
+                const order = filterRow.querySelector(".order-option").value;
+
+                if (field === "estado") {
+                    rows.forEach(row => {
+                        const estadoText = row.querySelector("td:nth-child(5) .status").innerText.toLowerCase();
+                        row.style.display = (estadoText === order) ? "" : "none";
+                    });
+                } else if (field === "fechaProgramada") {
+                    rows.sort((a, b) => {
+                        const dateA = new Date(a.cells[2].innerText);
+                        const dateB = new Date(b.cells[2].innerText);
+                        return order === "asc" ? dateA - dateB : dateB - dateA;
+                    });
+                } else {
+                    rows.sort((a, b) => {
+                        const textA = a.querySelector(`td:nth-child(${field === "referencia" ? 1 : field === "contacto" ? 2 : 4})`).innerText.toLowerCase();
+                        const textB = b.querySelector(`td:nth-child(${field === "referencia" ? 1 : field === "contacto" ? 2 : 4})`).innerText.toLowerCase();
+                        return order === "asc" ? textA.localeCompare(textB) : textB.localeCompare(textA);
+                    });
+                }
+            });
+
+            const tableBody = document.getElementById("entregas-table");
+            tableBody.innerHTML = "";
+            rows.forEach(row => tableBody.appendChild(row.cloneNode(true)));
+
+            if (deleteMode) showDeleteButtons();
+            closeModal();
+        }
+
+        function showDeleteButtons() {
+            const deleteButtons = document.querySelectorAll(".accion-column");
+            deleteButtons.forEach(button => {
+                button.style.display = "table-cell";
+            });
+        }
+
+        function hideDeleteButtons() {
+            const deleteButtons = document.querySelectorAll(".accion-column");
+            deleteButtons.forEach(button => {
+                button.style.display = "none";
+            });
+        }
+    </script>
 </body>
 </html>
