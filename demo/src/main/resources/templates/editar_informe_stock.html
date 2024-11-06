@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Informe de Stock</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        .header-bar {
+            background-color: #f06292; /* Rosado fuerte */
+        }
+        .content-box {
+            background-color: #f9c2d1; /* Rosado suave */
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .informacion-informe p {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .informacion-informe p strong {
+            flex: 1;
+            text-align: left;
+        }
+        .informacion-informe input {
+            flex: 1;
+            padding: 5px;
+            width: 50%;
+            max-width: 250px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-bar">
+        <a href="#" class="back-icon" onclick="redirectToDetalle()" aria-label="Cancelar">&#x2190;</a>
+        <div class="title-container">
+            <img src="/images/logo_informe_stock.png" alt="Icono Informe Stock" class="title-icon">
+            <h1>Editar Informe de Stock</h1>
+        </div>
+    </div>
+
+    <div class="detalle-container" style="margin-top: 80px;">
+        <div class="content-box" style="width: 100%;">
+            <div class="detalle-header">
+                <h2 id="detalle-id" style="text-align: center;">Editar Informe</h2>
+            </div>
+            <div class="informacion-informe" style="margin-top: 20px;">
+                <p><strong>ID del Informe:</strong> <input type="text" id="detalle-id-text" readonly></p>
+                <p><strong>Mes:</strong> <input type="text" id="detalle-mes"></p>
+                <p><strong>Año:</strong> <input type="text" id="detalle-anio"></p>
+                <p><strong>Fecha de Generación:</strong> <input type="date" id="detalle-fecha-generacion"></p>
+                <p><strong>Estado del Informe:</strong> <input type="text" id="detalle-estado"></p>
+            </div>
+
+            <!-- Tabla editable -->
+            <div class="table-box" style="margin-top: 20px;">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead style="background-color: #424242; color: white;">
+                        <tr>
+                            <th>ID Detalle Orden</th>
+                            <th>Nombre Recurso</th>
+                            <th>Cantidad Recurso</th>
+                            <th>Nombre Producto</th>
+                            <th>Cantidad Producto</th>
+                            <th>Fecha Creación</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="detalle-orden">
+                        <!-- Aquí se insertará el detalle de la orden en modo de edición -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Botón Agregar dentro del recuadro -->
+            <div class="agregar-btn-container" style="text-align: center; margin-top: 20px;">
+                <button class="new-btn" onclick="addRow()">Agregar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botones Cancelar y Guardar fuera del recuadro gris y centrados -->
+    <div class="button-center-container" style="display: flex; justify-content: space-between; padding: 0 50px; margin-top: 20px; padding-bottom: 40px;">
+        <button class="delete-btn" onclick="redirectToDetalle()" style="width: 150px;">Cancelar</button>
+        <button class="new-btn" onclick="saveChanges()" style="width: 150px;">Guardar</button>
+    </div>
+
+    <script>
+        const informes = [
+            { id: 'IS0001', mes: '1', anio: '2023', fechaGeneracion: '2023-01-31', estado: 'Generado' },
+            { id: 'IS0002', mes: '2', anio: '2023', fechaGeneracion: '2023-02-28', estado: 'En Proceso' },
+            { id: 'IS0003', mes: '3', anio: '2023', fechaGeneracion: '2023-03-31', estado: 'Finalizado' },
+            { id: 'IS0004', mes: '4', anio: '2023', fechaGeneracion: '2023-04-30', estado: 'Generado' },
+            { id: 'IS0005', mes: '5', anio: '2023', fechaGeneracion: '2023-05-31', estado: 'Generado' }
+        ];
+
+        const detalleOrdenData = [
+            { idDetalleOrden: 'D0001', nombreRecurso: 'Acero', cantidadRecurso: 5, nombreProducto: 'Tanque de Almacenamiento', cantidadProducto: 10, fechaCreacion: '2023-01-02' },
+            { idDetalleOrden: 'D0002', nombreRecurso: 'Cemento', cantidadRecurso: 10, nombreProducto: 'Puente Metálico', cantidadProducto: 15, fechaCreacion: '2023-01-15' },
+            { idDetalleOrden: 'D0003', nombreRecurso: 'Arena', cantidadRecurso: 8, nombreProducto: 'Faja Transportadora', cantidadProducto: 20, fechaCreacion: '2023-02-01' },
+            { idDetalleOrden: 'D0004', nombreRecurso: 'Grava', cantidadRecurso: 6, nombreProducto: 'Estructura Metálica', cantidadProducto: 12, fechaCreacion: '2023-02-15' },
+            { idDetalleOrden: 'D0005', nombreRecurso: 'Tubos HDPE', cantidadRecurso: 3, nombreProducto: 'Almacén Prefabricado', cantidadProducto: 5, fechaCreacion: '2023-03-01' }
+        ];
+
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        function cargarDetalleEditable() {
+            const informeId = getQueryParam('id');
+            const informe = informes.find(i => i.id === informeId);
+
+            if (informe) {
+                document.getElementById('detalle-id').innerText = informe.id;
+                document.getElementById('detalle-id-text').value = informe.id;
+                document.getElementById('detalle-mes').value = informe.mes;
+                document.getElementById('detalle-anio').value = informe.anio;
+                document.getElementById('detalle-fecha-generacion').value = informe.fechaGeneracion;
+                document.getElementById('detalle-estado').value = informe.estado;
+
+                cargarDetallesOrden(informeId);
+            } else {
+                alert("Informe no encontrado.");
+            }
+        }
+
+        function cargarDetallesOrden(informeId) {
+            const detalleOrdenTable = document.getElementById('detalle-orden');
+            detalleOrdenTable.innerHTML = '';
+
+            const detalle = detalleOrdenData.filter(d => d.idDetalleOrden === `D${informeId.slice(-4)}`);
+            detalle.forEach(detalle => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><input type="text" value="${detalle.idDetalleOrden}" style="width: 100%;" readonly></td>
+                    <td><input type="text" value="${detalle.nombreRecurso}" style="width: 100%;"></td>
+                    <td><input type="text" value="${detalle.cantidadRecurso}" style="width: 100%;"></td>
+                    <td><input type="text" value="${detalle.nombreProducto}" style="width: 100%;"></td>
+                    <td><input type="text" value="${detalle.cantidadProducto}" style="width: 100%;"></td>
+                    <td><input type="date" value="${detalle.fechaCreacion}" style="width: 100%;"></td>
+                    <td><button class="delete-btn" onclick="deleteRow(this)">Borrar</button></td>
+                `;
+                detalleOrdenTable.appendChild(row);
+            });
+        }
+
+        function redirectToDetalle() {
+            if (confirm("¿Está seguro de cancelar los cambios?")) {
+                const informeId = getQueryParam('id');
+                window.location.href = `/detalle_informe_stock?id=${informeId}`;
+            }
+        }
+
+        function saveChanges() {
+            if (confirm("¿Está seguro de guardar los cambios?")) {
+                alert("Cambios guardados");
+                const informeId = getQueryParam('id');
+                window.location.href = `/detalle_informe_stock?id=${informeId}`;
+            }
+        }
+
+        function addRow() {
+            const table = document.getElementById("detalle-orden");
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td><input type="text" style="width: 100%;" placeholder="ID Detalle Orden"></td>
+                <td><input type="text" style="width: 100%;" placeholder="Nombre Recurso"></td>
+                <td><input type="text" style="width: 100%;" placeholder="Cantidad Recurso"></td>
+                <td><input type="text" style="width: 100%;" placeholder="Nombre Producto"></td>
+                <td><input type="text" style="width: 100%;" placeholder="Cantidad Producto"></td>
+                <td><input type="date" style="width: 100%;"></td>
+                <td><button class="delete-btn" onclick="deleteRow(this)">Borrar</button></td>
+            `;
+            table.appendChild(row);
+        }
+
+        function deleteRow(button) {
+            const row = button.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+        }
+
+        window.onload = cargarDetalleEditable;
+    </script>
+</body>
+</html>

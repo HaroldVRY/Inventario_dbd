@@ -5,6 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Reabastecimiento</title>
     <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        /* Ajuste de colores */
+        .header-bar {
+            background-color: #007bff; /* Azul oscuro */
+        }
+        .content-box {
+            background-color: #e6f3ff; /* Azul claro */
+            padding: 20px;
+            border-radius: 8px;
+        }
+        /* Estilo para alinear encabezados a la izquierda y valores (inputs) a la derecha con tamaño reducido */
+        .informacion-reabastecimiento p {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .informacion-reabastecimiento p strong {
+            flex: 1;
+            text-align: left;
+        }
+        .informacion-reabastecimiento input {
+            flex: 1;
+            padding: 5px;
+            width: 50%; /* Tamaño reducido del input */
+            max-width: 250px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            text-align: left;
+        }
+    </style>
 </head>
 <body>
     <div class="header-bar">
@@ -16,9 +47,9 @@
     </div>
 
     <div class="detalle-container" style="margin-top: 80px;">
-        <div class="content-box" style="width: 100%; padding-bottom: 20px;">
+        <div class="content-box" style="width: 100%;">
             <div class="detalle-header">
-                <h2 id="detalle-id"></h2>
+                <h2 id="detalle-id" style="text-align: center;">Nuevo Recurso</h2>
             </div>
             <div class="informacion-reabastecimiento" style="margin-top: 20px;">
                 <p><strong>ID del Recurso:</strong> <input type="text" id="detalle-id-text"></p>
@@ -65,12 +96,10 @@
     <script>
         const recursos = [
             { id: 'RC0001', nombre: 'Acero', descripcion: 'Acero para construcción', costo: '1000.00', peso: '100', volumen: '1', plazo: '7', estado: 'Activo', fecha: '2023-01-01' }
-            // Agregar más datos de ejemplo si es necesario
         ];
 
         const detalleGuiaData = [
             { documento: 'GR0001', cantidad: 5, fecha: '2023-01-02', recursoId: 'RC0001' }
-            // Agregar más detalles si es necesario
         ];
 
         function getQueryParam(param) {

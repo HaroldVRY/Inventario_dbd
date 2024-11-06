@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle de Informe de Stock</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        /* Estilos personalizados para los colores específicos */
+        .header-bar {
+            background-color: #FF4C87; /* Color rosado fuerte */
+        }
+        .content-box {
+            background-color: #F8C5D6; /* Color rosado suave */
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .table-box table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .table-box th {
+            background-color: #3D3D3D;
+            color: white;
+            padding: 10px;
+        }
+        .table-box td {
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="header-bar informe-stock">
+        <a href="/informe_stock" class="back-icon" aria-label="Volver">&#x2190;</a>
+        <div class="title-container">
+            <img src="/images/logo_informe_stock.png" alt="Icono Informe de Stock" class="title-icon">
+            <h1>Detalle de Informe de Stock</h1>
+        </div>
+    </div>
+
+    <div class="detalle-container" style="margin-top: 80px;">
+        <div class="content-box">
+            <div class="detalle-header">
+                <h2 id="detalle-id"></h2>
+            </div>
+            <div class="informacion-informe-stock" style="margin-top: 20px;">
+                <div style="display: flex; justify-content: space-between;">
+                    <p><strong>ID del Informe:</strong></p>
+                    <p><span id="detalle-id-text"></span></p>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <p><strong>Mes:</strong></p>
+                    <p><span id="detalle-mes"></span></p>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <p><strong>Año:</strong></p>
+                    <p><span id="detalle-anio"></span></p>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <p><strong>Fecha de Generación:</strong></p>
+                    <p><span id="detalle-fecha-generacion"></span></p>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <p><strong>Estado del Informe:</strong></p>
+                    <p><span id="detalle-estado"></span></p>
+                </div>
+            </div>
+
+            <!-- Tabla de detalle de la actividad de informe -->
+            <div class="table-box" style="margin-top: 20px; background-color: #f9c2d1; padding: 0; border: none;">
+                <table style="width: 100%; border-collapse: collapse; margin: 0;">
+                    <thead style="background-color: #424242; color: white;">
+            
+                        <tr>
+                            <th>ID Detalle Orden</th>
+                            <th>Nombre Recurso</th>
+                            <th>Cantidad Recurso</th>
+                            <th>Nombre Producto</th>
+                            <th>Cantidad Producto</th>
+                            <th>Fecha Creación</th>
+                        </tr>
+                    </thead>
+                    <tbody id="detalle-informe-table">
+                        <!-- Aquí se insertará el detalle de la actividad de acuerdo al ID del informe -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="button-center-container" style="margin-top: 20px;">
+                <a id="editar-link" href="">
+                    <button class="new-btn">Editar</button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Datos de ejemplo de informes
+        const informes = [
+            { id: 'IS0001', idDetalleOrden: 'D0001', nombreRecurso: 'Acero', cantidadRecurso: 5, nombreProducto: 'Tanque de Almacenamiento', cantidadProducto: 10, fechaCreacion: '2023-01-02', mes: '1', anio: '2023', fechaGeneracion: '2023-01-31', estado: 'Generado' },
+            { id: 'IS0002', idDetalleOrden: 'D0002', nombreRecurso: 'Cemento', cantidadRecurso: 10, nombreProducto: 'Puente Metálico', cantidadProducto: 15, fechaCreacion: '2023-01-15', mes: '2', anio: '2023', fechaGeneracion: '2023-02-28', estado: 'En Proceso' },
+            { id: 'IS0003', idDetalleOrden: 'D0003', nombreRecurso: 'Arena', cantidadRecurso: 8, nombreProducto: 'Faja Transportadora', cantidadProducto: 20, fechaCreacion: '2023-03-01', mes: '3', anio: '2023', fechaGeneracion: '2023-03-31', estado: 'Finalizado' },
+            { id: 'IS0004', idDetalleOrden: 'D0004', nombreRecurso: 'Grava', cantidadRecurso: 6, nombreProducto: 'Estructura Metálica', cantidadProducto: 12, fechaCreacion: '2023-04-01', mes: '4', anio: '2023', fechaGeneracion: '2023-04-30', estado: 'Generado' },
+            { id: 'IS0005', idDetalleOrden: 'D0005', nombreRecurso: 'Tubos HDPE', cantidadRecurso: 3, nombreProducto: 'Almacén Prefabricado', cantidadProducto: 5, fechaCreacion: '2023-05-01', mes: '5', anio: '2023', fechaGeneracion: '2023-05-31', estado: 'Generado' }
+        ];
+
+        // Función para obtener el ID del informe desde la URL
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // Función para cargar los datos del informe y de la actividad en el HTML
+        function cargarDetalleInforme() {
+            const informeId = getQueryParam('id');
+            const informe = informes.find(item => item.id === informeId);
+
+            if (informe) {
+                document.getElementById('detalle-id').innerText = informe.id;
+                document.getElementById('detalle-id-text').innerText = informe.id;
+                document.getElementById('detalle-mes').innerText = informe.mes;
+                document.getElementById('detalle-anio').innerText = informe.anio;
+                document.getElementById('detalle-fecha-generacion').innerText = informe.fechaGeneracion;
+                document.getElementById('detalle-estado').innerText = informe.estado;
+
+                // Actualizar el enlace de edición con el ID actual
+                document.getElementById('editar-link').href = `/editar_informe_stock?id=${informe.id}`;
+
+                // Insertar el detalle de la actividad correspondiente
+                const tableBody = document.getElementById('detalle-informe-table');
+                tableBody.innerHTML = `
+                    <tr>
+                        <td>${informe.idDetalleOrden}</td>
+                        <td>${informe.nombreRecurso}</td>
+                        <td>${informe.cantidadRecurso}</td>
+                        <td>${informe.nombreProducto}</td>
+                        <td>${informe.cantidadProducto}</td>
+                        <td>${informe.fechaCreacion}</td>
+                    </tr>
+                `;
+            } else {
+                alert("Informe no encontrado.");
+            }
+        }
+
+        // Llama a la función al cargar la página
+        window.onload = cargarDetalleInforme;
+    </script>
+</body>
+</html>
