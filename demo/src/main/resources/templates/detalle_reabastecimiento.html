@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle de Reabastecimiento</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="header-bar reabastecimiento">
+        <a href="/reabastecimiento" class="back-icon" aria-label="Volver">&#x2190;</a>
+        <div class="title-container">
+            <img src="/images/logo_solicitud_reabastecimiento.png" alt="Icono Reabastecimiento" class="title-icon">
+            <h1>Detalle de Reabastecimiento</h1>
+        </div>
+    </div>
+
+    <div class="detalle-container" style="margin-top: 80px;">
+        <div class="content-box azul-suave" style="width: 100%;">
+            <div class="detalle-header">
+                <h2 id="detalle-id"></h2>
+            </div>
+            <div class="informacion-reabastecimiento" style="margin-top: 20px;">
+                <div style="display: flex; justify-content: space-between;">
+                    <p><strong>ID del Recurso:</strong></p>
+                    <p><span id="detalle-id-text"></span></p>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <p><strong>Nombre:</strong></p>
+                    <p><span id="detalle-nombre"></span></p>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <p><strong>Descripción:</strong></p>
+                    <p><span id="detalle-descripcion"></span></p>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <p><strong>Costo Unitario:</strong></p>
+                    <p><span id="detalle-costo"></span></p>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <p><strong>Peso:</strong></p>
+                    <p><span id="detalle-peso"></span></p>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <p><strong>Volumen:</strong></p>
+                    <p><span id="detalle-volumen"></span></p>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <p><strong>Plazo de Entrega:</strong></p>
+                    <p><span id="detalle-plazo"></span></p>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <p><strong>Estado del Recurso:</strong></p>
+                    <p><span id="detalle-estado"></span></p>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                    <p><strong>Fecha de Registro:</strong></p>
+                    <p><span id="detalle-fecha"></span></p>
+                </div>
+            </div>
+            
+
+            <!-- Tabla de detalle de recepciones -->
+            <div class="table-box" style="margin-top: 20px;">
+                <table style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Documento</th>
+                            <th>Cantidad</th>
+                            <th>Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody id="detalle-recepcion">
+                        <!-- Aquí se insertará el detalle de la recepción según el ID del recurso -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="button-center-container" style="margin-top: 20px;">
+                <a id="editar-link" href="">
+                    <button class="new-btn">Editar</button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Datos de ejemplo de recursos
+        const recursos = [
+            { id: 'RC0001', nombre: 'Acero', descripcion: 'Acero para construcción de estructuras', costo: '$1000.00', peso: '100 kg', volumen: '1 m³', plazo: '7 días', estado: 'Activo', fecha: '2023-01-01' },
+            { id: 'RC0002', nombre: 'Cemento', descripcion: 'Cemento Portland', costo: '$150.00', peso: '50 kg', volumen: '0.25 m³', plazo: '3 días', estado: 'Activo', fecha: '2023-01-05' },
+            { id: 'RC0003', nombre: 'Arena', descripcion: 'Arena fina para mezcla', costo: '$200.00', peso: '60 kg', volumen: '0.30 m³', plazo: '5 días', estado: 'Activo', fecha: '2023-01-10' },
+            { id: 'RC0004', nombre: 'Grava', descripcion: 'Grava para cimientos', costo: '$250.00', peso: '70 kg', volumen: '0.40 m³', plazo: '4 días', estado: 'Activo', fecha: '2023-01-15' },
+            { id: 'RC0005', nombre: 'Tubos HDPE', descripcion: 'Tubos de polietileno de alta densidad', costo: '$200.00', peso: '20 kg', volumen: '0.15 m³', plazo: '10 días', estado: 'Activo', fecha: '2023-01-20' }
+        ];
+
+        // Datos de detalle de recepción
+        const detalleGuiaData = [
+            { documento: 'GR0001', cantidad: 5, fecha: '2023-01-02', recursoId: 'RC0001' },
+            { documento: 'GR0002', cantidad: 3, fecha: '2023-01-05', recursoId: 'RC0002' },
+            { documento: 'GR0003', cantidad: 2, fecha: '2023-01-10', recursoId: 'RC0003' },
+            { documento: 'GR0004', cantidad: 7, fecha: '2023-01-15', recursoId: 'RC0004' },
+            { documento: 'GR0005', cantidad: 4, fecha: '2023-01-20', recursoId: 'RC0005' }
+        ];
+
+        // Función para obtener el ID de la URL
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // Función para cargar los datos del recurso y de la recepción en el HTML
+        function cargarDetalle() {
+            const recursoId = getQueryParam('id');
+            const recurso = recursos.find(r => r.id === recursoId);
+
+            if (recurso) {
+                document.getElementById('detalle-id').innerText = recurso.id;
+                document.getElementById('detalle-id-text').innerText = recurso.id;
+                document.getElementById('detalle-nombre').innerText = recurso.nombre;
+                document.getElementById('detalle-descripcion').innerText = recurso.descripcion;
+                document.getElementById('detalle-costo').innerText = recurso.costo;
+                document.getElementById('detalle-peso').innerText = recurso.peso;
+                document.getElementById('detalle-volumen').innerText = recurso.volumen;
+                document.getElementById('detalle-plazo').innerText = recurso.plazo;
+                document.getElementById('detalle-estado').innerText = recurso.estado;
+                document.getElementById('detalle-fecha').innerText = recurso.fecha;
+
+                // Actualizar el enlace de edición con el ID actual
+                document.getElementById('editar-link').href = `/editar_reabastecimiento?id=${recurso.id}`;
+
+                // Cargar el detalle de la recepción correspondiente
+                const detalleRecepcion = detalleGuiaData.find(d => d.recursoId === recursoId);
+                if (detalleRecepcion) {
+                    const detalleRecepcionTable = document.getElementById('detalle-recepcion');
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${detalleRecepcion.documento}</td>
+                        <td>${detalleRecepcion.cantidad}</td>
+                        <td>${detalleRecepcion.fecha}</td>
+                    `;
+                    detalleRecepcionTable.appendChild(row);
+                }
+            } else {
+                alert("Recurso no encontrado.");
+            }
+        }
+
+        // Llamar a la función al cargar la página
+        window.onload = cargarDetalle;
+    </script>
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Reabastecimiento</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="header-bar">
+        <a href="#" class="back-icon" onclick="redirectToDetalle()" aria-label="Cancelar">&#x2190;</a>
+        <div class="title-container">
+            <img src="/images/logo_solicitud_reabastecimiento.png" alt="Icono Reabastecimiento" class="title-icon">
+            <h1>Editar Reabastecimiento</h1>
+        </div>
+    </div>
+
+    <div class="detalle-container" style="margin-top: 80px;">
+        <div class="content-box" style="width: 100%; padding-bottom: 20px;">
+            <div class="detalle-header">
+                <h2 id="detalle-id"></h2>
+            </div>
+            <div class="informacion-reabastecimiento" style="margin-top: 20px;">
+                <p><strong>ID del Recurso:</strong> <input type="text" id="detalle-id-text"></p>
+                <p><strong>Nombre:</strong> <input type="text" id="detalle-nombre"></p>
+                <p><strong>Descripción:</strong> <input type="text" id="detalle-descripcion"></p>
+                <p><strong>Costo Unitario:</strong> <input type="text" id="detalle-costo"></p>
+                <p><strong>Peso:</strong> <input type="text" id="detalle-peso"></p>
+                <p><strong>Volumen:</strong> <input type="text" id="detalle-volumen"></p>
+                <p><strong>Plazo de Entrega:</strong> <input type="text" id="detalle-plazo"></p>
+                <p><strong>Estado del Recurso:</strong> <input type="text" id="detalle-estado"></p>
+                <p><strong>Fecha de Registro:</strong> <input type="date" id="detalle-fecha"></p>
+            </div>
+
+            <!-- Tabla editable sin título, pero con encabezado -->
+            <div class="table-box" style="margin-top: 20px;">
+                <table style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Documento</th>
+                            <th>Cantidad</th>
+                            <th>Fecha</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="detalle-recepcion">
+                        <!-- Aquí se insertará el detalle de la recepción en modo de edición -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Botón Agregar dentro del recuadro gris -->
+            <div class="agregar-btn-container" style="text-align: center; margin-top: 20px;">
+                <button class="new-btn" onclick="addRow()">Agregar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botones Cancelar y Guardar fuera del recuadro gris y centrados -->
+    <div class="button-center-container" style="display: flex; justify-content: space-between; padding: 0 50px; margin-top: 20px; padding-bottom: 40px;">
+        <button class="delete-btn" onclick="redirectToDetalle()" style="width: 150px;">Cancelar</button>
+        <button class="new-btn" onclick="saveChanges()" style="width: 150px;">Guardar</button>
+    </div>
+
+    <script>
+        const recursos = [
+            { id: 'RC0001', nombre: 'Acero', descripcion: 'Acero para construcción', costo: '1000.00', peso: '100', volumen: '1', plazo: '7', estado: 'Activo', fecha: '2023-01-01' }
+            // Agregar más datos de ejemplo si es necesario
+        ];
+
+        const detalleGuiaData = [
+            { documento: 'GR0001', cantidad: 5, fecha: '2023-01-02', recursoId: 'RC0001' }
+            // Agregar más detalles si es necesario
+        ];
+
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        function cargarDetalleEditable() {
+            const recursoId = getQueryParam('id');
+            if (recursoId === 'new') {
+                limpiarCampos();
+                document.getElementById('detalle-id').innerText = 'Nuevo Recurso';
+            } else {
+                const recurso = recursos.find(r => r.id === recursoId);
+                if (recurso) {
+                    cargarDatosRecurso(recurso);
+                    cargarDetallesRecepcion(recursoId);
+                } else {
+                    alert("Recurso no encontrado.");
+                }
+            }
+        }
+
+        function limpiarCampos() {
+            document.getElementById('detalle-id-text').value = '';
+            document.getElementById('detalle-nombre').value = '';
+            document.getElementById('detalle-descripcion').value = '';
+            document.getElementById('detalle-costo').value = '';
+            document.getElementById('detalle-peso').value = '';
+            document.getElementById('detalle-volumen').value = '';
+            document.getElementById('detalle-plazo').value = '';
+            document.getElementById('detalle-estado').value = '';
+            document.getElementById('detalle-fecha').value = '';
+        }
+
+        function cargarDatosRecurso(recurso) {
+            document.getElementById('detalle-id').innerText = recurso.id;
+            document.getElementById('detalle-id-text').value = recurso.id;
+            document.getElementById('detalle-nombre').value = recurso.nombre;
+            document.getElementById('detalle-descripcion').value = recurso.descripcion;
+            document.getElementById('detalle-costo').value = recurso.costo;
+            document.getElementById('detalle-peso').value = recurso.peso;
+            document.getElementById('detalle-volumen').value = recurso.volumen;
+            document.getElementById('detalle-plazo').value = recurso.plazo;
+            document.getElementById('detalle-estado').value = recurso.estado;
+            document.getElementById('detalle-fecha').value = recurso.fecha;
+        }
+
+        function cargarDetallesRecepcion(recursoId) {
+            const detalleRecepcion = detalleGuiaData.filter(d => d.recursoId === recursoId);
+            const detalleRecepcionTable = document.getElementById('detalle-recepcion');
+            detalleRecepcionTable.innerHTML = '';
+            detalleRecepcion.forEach(detalle => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><input type="text" value="${detalle.documento}" style="width: 100%;"></td>
+                    <td><input type="text" value="${detalle.cantidad}" style="width: 100%;"></td>
+                    <td><input type="date" value="${detalle.fecha}" style="width: 100%;"></td>
+                    <td><button class="delete-btn" onclick="deleteRow(this)">Borrar</button></td>
+                `;
+                detalleRecepcionTable.appendChild(row);
+            });
+        }
+
+        function redirectToDetalle() {
+            const recursoId = getQueryParam('id');
+            if (recursoId === 'new') {
+                if (confirm("¿Está seguro de cancelar los cambios?")) {
+                    window.location.href = "/reabastecimiento";
+                }
+            } else {
+                if (confirm("¿Está seguro de cancelar los cambios?")) {
+                    window.location.href = `/detalle_reabastecimiento?id=${recursoId}`;
+                }
+            }
+        }
+
+        function saveChanges() {
+            const recursoId = getQueryParam('id');
+            alert("Cambios guardados");
+            if (recursoId === 'new') {
+                window.location.href = "/reabastecimiento";
+            } else {
+                window.location.href = `/detalle_reabastecimiento?id=${recursoId}`;
+            }
+        }
+
+        function addRow() {
+            const table = document.getElementById("detalle-recepcion");
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td><input type="text" style="width: 100%;" placeholder="Documento"></td>
+                <td><input type="text" style="width: 100%;" placeholder="Cantidad"></td>
+                <td><input type="date" style="width: 100%;"></td>
+                <td><button class="delete-btn" onclick="deleteRow(this)">Borrar</button></td>
+            `;
+            table.appendChild(row);
+        }
+
+        function deleteRow(button) {
+            const row = button.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+        }
+
+        window.onload = cargarDetalleEditable;
+    </script>
+</body>
+</html>

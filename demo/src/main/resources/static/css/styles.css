@@ -394,7 +394,6 @@ th {
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   width: 80%;
   max-width: 800px;
-  margin: 0 auto 20px auto; /* Centra el recuadro */
 }
 
 
@@ -519,4 +518,53 @@ th {
 .button-container .new-btn {
   background-color: #2196F3;
   color: #fff;
+}
+
+
+/* Estilos específicos para Solicitudes de Reabastecimiento */
+.reabastecimiento-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Contenedor de contenido con fondo azul suave */
+
+
+/* Barra Superior de Solicitudes de Reabastecimiento */
+.header-bar.reabastecimiento {
+  background-color: #007bff; /* Azul oscuro para la barra superior */
+}
+
+/* Color de encabezado de la tabla en Solicitudes de Reabastecimiento */
+.reabastecimiento-table-box th {
+  background-color: #007bff; /* Azul oscuro */
+  color: #ffffff;
+}
+
+/* Color del estado 'A pedir' */
+.reabastecimiento-status.a-pedir {
+  background-color: #28a745; /* Verde para "A pedir" */
+  color: #ffffff;
+}
+
+/* Color de botones específicos para Solicitudes de Reabastecimiento */
+.reabastecimiento-delete-btn {
+  background-color: #e74c3c; /* Rojo para botón de eliminar */
+  color: white;
+}
+
+.reabastecimiento-new-btn {
+  background-color: #007bff; /* Azul oscuro para botón de nuevo */
+  color: white;
+}
+
+/* Contenedor de búsqueda y filtro */
+.reabastecimiento .search-filter-container {
+  background-color: #f0f8ff; /* Azul claro */
+  padding: 15px;
+  border-radius: 8px;
+  margin: 0 auto 20px auto;
+  width: 90%;
+  max-width: 1000px;
 }

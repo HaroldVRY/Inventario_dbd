@@ -3,61 +3,276 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solicitudes de Reabastecimiento</title>
+    <title>Reabastecimiento</title>
     <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/filtros.css">
 </head>
 <body>
-    <div class="header-bar" style="background-color: #3498db;">
+    <div class="header-bar reabastecimiento">
         <a href="/" class="back-icon" aria-label="Volver al inicio">&#x2190;</a>
         <div class="title-container">
-            <img src="/images/logo_solicitud_reabastecimiento.png" alt="Icono Solicitudes de Reabastecimiento" class="title-icon">
-            <h1>Solicitudes de Reabastecimiento</h1>
+            <img src="/images/logo_solicitud_reabastecimiento.png" alt="Icono Reabastecimiento" class="title-icon">
+            <h1>Reabastecimiento</h1>
         </div>
     </div>
 
-    <div class="recepciones-container">
-        <div class="content-box" style="background-color: #b3d9ff; margin-top: 100px;">
+    <div class="reabastecimiento-container">
+        <!-- Contenedor de búsqueda y filtro -->
+        <div class="search-filter-container reabastecimiento" style="margin-top: 60px;">
+            <input type="text" id="searchInput" placeholder="Buscar por producto, pronóstico, etc.">
+            <button class="search-btn" onclick="searchTable()">
+                <span class="icon-search">&#128269;</span> <!-- Icono de lupa -->
+                Buscar
+            </button>
+            <button class="filter-btn" onclick="openModal()">
+                <span class="icon-filter">&#128209;</span> <!-- Icono de filtro -->
+                Filtrar
+            </button>
+        </div>
+
+        <div class="reabastecimiento content-box azul-suave"> <!-- Aplicar estilo de azul suave -->
             <table>
                 <thead>
                     <tr>
                         <th>Producto</th>
-                        <th>Stock Real</th>
-                        <th>Pronóstico</th>
+                        <th>Stock</th>
+                        <th>Disponible</th>
                         <th>Mínimo</th>
                         <th>Máximo</th>
                         <th>A pedir</th>
-                        <th>Acciones</th>
+                        <th class="accion-column" style="display: none;">Acción</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>Acero Laminado</td>
+                <tbody id="reabastecimiento-table">
+                    <tr data-id="RC0001" onclick="redirectToDetail(this)">
+                        <td>Acero</td>
                         <td>50,00</td>
                         <td>30,00</td>
                         <td>5,00</td>
                         <td>250,00</td>
-                        <td><span class="status listo">100,00</span></td>
-                        <td><button class="new-btn">Generar</button></td> <!-- Cambiado de "Acción" a "Generar" -->
+                        <td>100,00</td>
+                        <td class="accion-column" style="display: none;">
+                            <button class="delete-btn" onclick="deleteRow(this)">Eliminar</button>
+                        </td>
                     </tr>
-
-                    <tr>
-                        <td>Tubo de Acero</td>
+                    <tr data-id="RC0002" onclick="redirectToDetail(this)">
+                        <td>Cemento</td>
                         <td>30,00</td>
                         <td>10,00</td>
                         <td>10,00</td>
                         <td>300,00</td>
-                        <td><span class="status listo">150,00</span></td>
-                        <td><button class="new-btn">Generar</button></td>
+                        <td>150,00</td>
+                        <td class="accion-column" style="display: none;">
+                            <button class="delete-btn" onclick="deleteRow(this)">Eliminar</button>
+                        </td>
                     </tr>
-                    <!-- Añadir más filas según sea necesario -->
+                    <tr data-id="RC0003" onclick="redirectToDetail(this)">
+                        <td>Arena</td>
+                        <td>80,00</td>
+                        <td>40,00</td>
+                        <td>30,00</td>
+                        <td>400,00</td>
+                        <td>200,00</td>
+                        <td class="accion-column" style="display: none;">
+                            <button class="delete-btn" onclick="deleteRow(this)">Eliminar</button>
+                        </td>
+                    </tr>
+                    <tr data-id="RC0004" onclick="redirectToDetail(this)">
+                        <td>Grava</td>
+                        <td>70,00</td>
+                        <td>20,00</td>
+                        <td>20,00</td>
+                        <td>150,00</td>
+                        <td>50,00</td>
+                        <td class="accion-column" style="display: none;">
+                            <button class="delete-btn" onclick="deleteRow(this)">Eliminar</button>
+                        </td>
+                    </tr>
+                    <tr data-id="RC0005" onclick="redirectToDetail(this)">
+                        <td>Tubos HDPE</td>
+                        <td>100,00</td>
+                        <td>40,00</td>
+                        <td>40,00</td>
+                        <td>200,00</td>
+                        <td>150,00</td>
+                        <td class="accion-column" style="display: none;">
+                            <button class="delete-btn" onclick="deleteRow(this)">Eliminar</button>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
 
         <div class="button-container">
-            <button class="delete-btn">Eliminar</button>
-            <button class="new-btn">Nuevo</button>
+            <button id="toggle-delete" class="delete-btn reabastecimiento-delete-btn" onclick="toggleDeleteMode()">Eliminar</button>
+            <button id="save-btn" class="new-btn reabastecimiento-new-btn" onclick="saveChanges()" style="display:none;">Guardar</button>
+            <button id="new-btn" class="new-btn reabastecimiento-new-btn" onclick="window.location.href='/editar_reabastecimiento?id=new'">Nuevo</button>
+        </div>
+
+        <!-- Modal de filtro -->
+        <div class="modal-overlay" id="modalOverlay">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Filtros</h2>
+                </div>
+                <table class="filter-table">
+                    <thead>
+                        <tr>
+                            <th>Aplicar a</th>
+                            <th>Orden</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody id="filterTableBody">
+                        <tr>
+                            <td>
+                                <select class="filter-field" onchange="updateOrderOptions(this)">
+                                    <option value="producto">Producto</option>
+                                    <option value="stock">Stock</option>
+                                    <option value="disponible">Disponible</option>
+                                    <option value="minimo">Mínimo</option>
+                                    <option value="maximo">Máximo</option>
+                                </select>
+                            </td>
+                            <td>
+                                <select class="order-option">
+                                    <option value="asc">Ascendente</option>
+                                    <option value="desc">Descendente</option>
+                                </select>
+                            </td>
+                            <td><button class="btn-action" onclick="removeRow(this)">Borrar</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button class="btn-add" onclick="addRow()">Agregar</button>
+                <div class="modal-footer">
+                    <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+                    <button class="btn-accept" onclick="applyFilters()">Aceptar</button>
+                </div>
+            </div>
         </div>
     </div>
+
+    <script>
+        let deleteMode = false;
+
+        function toggleDeleteMode() {
+            deleteMode = !deleteMode;
+            const deleteButtons = document.querySelectorAll(".accion-column");
+            document.getElementById("toggle-delete").innerText = deleteMode ? "Cancelar" : "Eliminar";
+            document.getElementById("new-btn").style.display = deleteMode ? "none" : "block";
+            document.getElementById("save-btn").style.display = deleteMode ? "block" : "none";
+
+            deleteButtons.forEach(button => {
+                button.style.display = deleteMode ? "table-cell" : "none";
+            });
+        }
+
+        function deleteRow(button) {
+            const row = button.closest("tr");
+            row.remove();
+        }
+
+        function saveChanges() {
+            if (confirm("¿Guardar los cambios?")) {
+                toggleDeleteMode();
+                window.location.href = "/reabastecimiento";
+            }
+        }
+
+        function searchTable() {
+            resetRows();
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const rows = document.querySelectorAll('#reabastecimiento-table tr');
+
+            rows.forEach(row => {
+                const rowText = row.textContent.toLowerCase();
+                row.style.display = rowText.includes(searchTerm) ? '' : 'none';
+            });
+            showDeleteButtonsIfActive();
+        }
+
+        function openModal() {
+            document.getElementById("modalOverlay").style.display = "flex";
+        }
+
+        function closeModal() {
+            document.getElementById("modalOverlay").style.display = "none";
+        }
+
+        function addRow() {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>
+                    <select class="filter-field" onchange="updateOrderOptions(this)">
+                        <option value="producto">Producto</option>
+                        <option value="stock">Stock</option>
+                        <option value="disponible">Disponible</option>
+                        <option value="minimo">Mínimo</option>
+                        <option value="maximo">Máximo</option>
+                    </select>
+                </td>
+                <td>
+                    <select class="order-option">
+                        <option value="asc">Ascendente</option>
+                        <option value="desc">Descendente</option>
+                    </select>
+                </td>
+                <td><button class="btn-action" onclick="removeRow(this)">Borrar</button></td>
+            `;
+            document.getElementById("filterTableBody").appendChild(row);
+        }
+
+        function removeRow(button) {
+            button.parentElement.parentElement.remove();
+        }
+
+        function resetRows() {
+            const rows = Array.from(document.querySelectorAll("#reabastecimiento-table tr"));
+            rows.forEach(row => row.style.display = "");
+        }
+
+        function applyFilters() {
+            resetRows();
+            const rows = Array.from(document.querySelectorAll("#reabastecimiento-table tr"));
+            const filters = Array.from(document.querySelectorAll("#filterTableBody tr"));
+
+            filters.forEach(filterRow => {
+                const field = filterRow.querySelector(".filter-field").value;
+                const order = filterRow.querySelector(".order-option").value;
+
+                if (field === "producto") {
+                    rows.sort((a, b) => {
+                        const textA = a.cells[0].innerText.toLowerCase();
+                        const textB = b.cells[0].innerText.toLowerCase();
+                        return order === "asc" ? textA.localeCompare(textB) : textB.localeCompare(textA);
+                    });
+                }
+            });
+
+            const tableBody = document.getElementById("reabastecimiento-table");
+            tableBody.innerHTML = "";
+            rows.forEach(row => tableBody.appendChild(row.cloneNode(true)));
+            closeModal();
+            showDeleteButtonsIfActive();
+        }
+
+        function showDeleteButtonsIfActive() {
+            if (deleteMode) {
+                const deleteButtons = document.querySelectorAll(".accion-column");
+                deleteButtons.forEach(button => {
+                    button.style.display = "table-cell";
+                });
+            }
+        }
+
+        // Redirigir al detalle al hacer clic en una fila
+        function redirectToDetail(row) {
+            if (!deleteMode) { // Solo permite redireccionar si deleteMode es falso
+                const id = row.getAttribute("data-id");
+                window.location.href = `/detalle_reabastecimiento?id=${id}`;
+            }
+        }
+    </script>
 </body>
 </html>
